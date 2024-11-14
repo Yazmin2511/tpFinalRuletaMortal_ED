@@ -1,33 +1,17 @@
 #include <iostream>
 #include <stdlib.h>
-
+const int MAX=20;
+//llamadas a los archivos .hpp
+#include "sub_menus.hpp"
+#include "bicola_entrada_restringida.hpp"
+#include "bicola_salida_restringida.hpp"
 using namespace std;
 
 main()
 {
-
-
+  cout<<"You're a loser, baby"<<endl;
+  opciones();
+  return 0;
 }
 
 
-void opciones()
-{   
-        cout<<"Gestión de jugadores";
-        cout<<"Crear ruleta de palabras";
-        cout<<"Crear ruleta de palabras";
-        cout<<"Jugar";
-        cout<<"Cuadro de honor";
-        cout<<"Salir";
-        cout<<"Elija una opcion";
-        
-}
-
-void menu()
-{
-    int opcion = -1;
-    do{
-        opciones();
-        cin>>opcion;
-    }while(opcion!=5);
-
-}
