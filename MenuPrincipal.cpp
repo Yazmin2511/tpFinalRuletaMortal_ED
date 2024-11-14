@@ -10,7 +10,7 @@ using namespace std;
 main()
 {
   cout<<"You're a loser, baby"<<endl;
-  opciones();
+  menu();
   return 0;
 }
 
