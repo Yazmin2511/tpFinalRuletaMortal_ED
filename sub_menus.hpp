@@ -1,5 +1,9 @@
 #include <iostream>
+#include "abb_jugadores.hpp"
 using namespace std;
+
+
+
 void opciones() {
     
     cout << "=====================================" << endl;
@@ -55,39 +59,60 @@ void menu_jugar(){
 }
 void menu_principal_gestion_jugador()
 {
-    int opcion ;
+    int opcion;
+    pnodo arbol ;
+    inicializar_arbol(arbol);
     do{
-         system("cls");
+        system("cls");
         menu_gestion_jugadores();
-        cin>>opcion;
+        cin >> opcion;
+      
         switch (opcion)
         {
         case 1:
-            
+        {
+            cout<<"entra"<<endl;
+            pnodo nuevo; // Mueve la declaración aquí
+            crear_nodo(nuevo);
+            cout<<"entra2"<<endl;
+            insertar(arbol, nuevo);
+            cout<<"entra3"<<endl;
             break;
+        }
         case 2:
-           
+            {
+            tcad buscado;
+            cout<<"Ingrese nickname de jugador"<<endl;
+            cin>>buscado;
+            if(busqueda_datos(arbol,buscado)==NULL)
+                cout<<"Jugador no existe"<<endl;
+            else
+                cout<<"Jugador existe"<<endl;
+            system("pause");
             break;
+            }
         case 3:
-            
+            // Lógica para el caso 3
             break;
         case 4:
-            
+            // Lógica para el caso 4
+            //cout para elegir si mostrar en asc o desc
+            mostrar_orden(arbol,true);
+            system("pause");
             break;
         case 5:
+            // Lógica para el caso 5
             
             break;
         case 6:
-            cout<<"sigue asi vamos guerrero"<<endl;
+            std::cout << "sigue asi vamos guerrero" << std::endl;
             break;
-        
         default:
             break;
         }
-
-    }while(opcion!=6);
-
+    } while (opcion != 6);
 }
+
 void menu_principal_ruleta_palabras()
 {
     int opcion ;
