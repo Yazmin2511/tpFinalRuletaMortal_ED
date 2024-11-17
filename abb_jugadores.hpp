@@ -24,12 +24,13 @@ void inicializar_arbol(pnodo&p)
     p->der = NULL;
 }
 
+
 bool busqueda(pnodo p, tcad nickname){
     bool encontrado;
     if(p==NULL){
         return false;
     }else{
-        if(p->jugador.nickname == nickname)
+        if(strcmp(p->jugador.nickname, nickname) == 0)
             return true;
         else{
             if(p->jugador.nickname[0] > nickname[0])
@@ -43,29 +44,28 @@ bool busqueda(pnodo p, tcad nickname){
 }
 
 void crear_nodo(pnodo&p , pnodo arbol)
-{   bool nickname_repetido;
+{   bool nickname_repetido=true;
     p = new tnodo;
     if(p == NULL)
         std::cout<<"Memoria llena"<<std::endl;
     else
     {   
-        do{
+      
             std::cout<<"Ingrese nombre"<<std::endl;
             std::cin>>p->jugador.nombre;
 
             std::cout<<"Ingrese apellido"<<std::endl;
             std::cin>>p->jugador.apellido;
+            
+         do{
             std::cout<<"Ingrese nickname"<<std::endl;
             std::cin>>p->jugador.nickname;
 
-            if(strcmp(p->jugador.nombre,"") == 0 )
-                std::cout<<"Debe ingresar nombre "<<std::endl;
-            if(strcmp(p->jugador.apellido,"") == 0 )
-                std::cout<<"Debe ingresar apellido "<<std::endl;
-
             nickname_repetido = busqueda(arbol,p->jugador.nickname);
+            if(nickname_repetido == true)
+                std::cout<<"Nickname no disponible"<<std::endl;
 
-        }while(strcmp(p->jugador.nombre,"") == 0 || strcmp(p->jugador.apellido,"") ==0  || nickname_repetido == true );
+            }while(nickname_repetido == true );
         
 
         p->jugador.mejor_puntaje = 0;
@@ -129,9 +129,6 @@ void insertar(pnodo& arbol, pnodo nuevo)
         delete(nuevo);
     }
 }
-
-
-
 
 void mostrar_orden(pnodo arbol , bool asc)
 {  
