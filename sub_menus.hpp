@@ -71,12 +71,9 @@ void menu_principal_gestion_jugador()
         {
         case 1:
         {
-            cout<<"entra"<<endl;
             pnodo nuevo; // Mueve la declaración aquí
-            crear_nodo(nuevo);
-            cout<<"entra2"<<endl;
+            crear_nodo(nuevo,arbol);
             insertar(arbol, nuevo);
-            cout<<"entra3"<<endl;
             break;
         }
         case 2:
@@ -93,24 +90,29 @@ void menu_principal_gestion_jugador()
             }
         case 3:
             // Lógica para el caso 3
+            system("pause");
             break;
         case 4:
             // Lógica para el caso 4
             //cout para elegir si mostrar en asc o desc
+            std::cout<<"_________________Jugadores______________"<<std::endl;
             mostrar_orden(arbol,true);
             system("pause");
             break;
         case 5:
             // Lógica para el caso 5
-            
+            system("pause");
             break;
         case 6:
             std::cout << "sigue asi vamos guerrero" << std::endl;
+            system("pause");
             break;
         default:
             break;
         }
+       
     } while (opcion != 6);
+   
 }
 
 void menu_principal_ruleta_palabras()

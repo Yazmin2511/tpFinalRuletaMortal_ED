@@ -24,19 +24,49 @@ void inicializar_arbol(pnodo&p)
     p->der = NULL;
 }
 
-void crear_nodo(pnodo&p)
-{
+bool busqueda(pnodo p, tcad nickname){
+    bool encontrado;
+    if(p==NULL){
+        return false;
+    }else{
+        if(p->jugador.nickname == nickname)
+            return true;
+        else{
+            if(p->jugador.nickname[0] > nickname[0])
+                encontrado=busqueda(p->izq,nickname);
+            else
+                encontrado=busqueda(p->der,nickname);
+        }
+    }
+
+    return encontrado;
+}
+
+void crear_nodo(pnodo&p , pnodo arbol)
+{   bool nickname_repetido;
     p = new tnodo;
     if(p == NULL)
         std::cout<<"Memoria llena"<<std::endl;
     else
-    {
-        std::cout<<"Ingrese nombre"<<std::endl;
-        std::cin>>p->jugador.nombre;
-        std::cout<<"Ingrese apellido"<<std::endl;
-        std::cin>>p->jugador.apellido;
-        std::cout<<"Ingrese nickname"<<std::endl;
-        std::cin>>p->jugador.nickname;
+    {   
+        do{
+            std::cout<<"Ingrese nombre"<<std::endl;
+            std::cin>>p->jugador.nombre;
+
+            std::cout<<"Ingrese apellido"<<std::endl;
+            std::cin>>p->jugador.apellido;
+            std::cout<<"Ingrese nickname"<<std::endl;
+            std::cin>>p->jugador.nickname;
+
+            if(strcmp(p->jugador.nombre,"") == 0 )
+                std::cout<<"Debe ingresar nombre "<<std::endl;
+            if(strcmp(p->jugador.apellido,"") == 0 )
+                std::cout<<"Debe ingresar apellido "<<std::endl;
+
+            nickname_repetido = busqueda(arbol,p->jugador.nickname);
+
+        }while(strcmp(p->jugador.nombre,"") == 0 || strcmp(p->jugador.apellido,"") ==0  || nickname_repetido == true );
+        
 
         p->jugador.mejor_puntaje = 0;
         p->jugador.puntaje_total = 0;
@@ -63,54 +93,60 @@ void crear_nodo_temp(pnodo &p, const char *nombre, const char *apellido, const c
     } 
 }
 
-void insertar(pnodo&arbol , pnodo nuevo)
+// void insertar(pnodo&arbol , pnodo nuevo)
+// {
+//     if(arbol == NULL)
+//         arbol = nuevo;
+//     else
+//     {
+//         if(arbol->jugador.nickname[0] > nuevo->jugador.nickname[0])
+//         {
+//             insertar(arbol->izq,nuevo);
+//         }else{
+//             insertar(arbol->der,nuevo);
+//         }
+//     }
+// }
+
+
+void insertar(pnodo& arbol, pnodo nuevo)
 {
-    if(arbol == NULL)
-        arbol = nuevo;
+    if (arbol == NULL)
+    {
+        arbol = nuevo; // Insertamos el nodo en la posición adecuada
+    }
+    else if (strcmp(nuevo->jugador.nickname, arbol->jugador.nickname) < 0) 
+    {
+        insertar(arbol->izq, nuevo); // Va a la izquierda si es menor
+    }
+    else if (strcmp(nuevo->jugador.nickname, arbol->jugador.nickname) > 0) 
+    {
+        insertar(arbol->der, nuevo); // Va a la derecha si es mayor
+    }
     else
     {
-        if(arbol->jugador.nickname[0] > nuevo->jugador.nickname[0])
-        {
-            insertar(arbol->izq,nuevo);
-        }else{
-            insertar(arbol->der,nuevo);
-        }
+        std::cout << "Nickname duplicado " << nuevo->jugador.nickname << std::endl; // Manejo duplicados
+        delete(nuevo);
     }
 }
 
-bool busqueda(pnodo p, tcad nickname){
-    bool encontrado;
-    if(p==NULL){
-        return false;
-    }else{
-        if(p->jugador.nickname == nickname)
-            return true;
-        else{
-            if(p->jugador.nickname[0] > nickname[0])
-                encontrado=busqueda(p->izq,nickname);
-            else
-                encontrado=busqueda(p->der,nickname);
-        }
-    }
 
-    return encontrado;
-}
+
 
 void mostrar_orden(pnodo arbol , bool asc)
-{
+{  
     if(arbol != NULL )
     {   
         if(asc == true)
         {
             mostrar_orden(arbol->izq,asc);
-            
-            std::cout<<"Nickname "<<arbol->jugador.nickname<<" "<<std::endl;
+            std::cout<<arbol->jugador.nickname<<" "<<std::endl;
             mostrar_orden(arbol->der,asc);
         }
         else
         {
             mostrar_orden(arbol->der,asc);
-            std::cout<<"Nickname "<<arbol->jugador.nickname<<" "<<std::endl;
+            std::cout<<arbol->jugador.nickname<<" "<<std::endl;
             mostrar_orden(arbol->izq,asc);
         }
     }
