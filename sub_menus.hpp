@@ -60,7 +60,7 @@ void menu_jugar(){
 void menu_principal_gestion_jugador()
 {
     int opcion;
-    pnodo arbol ;
+    pnodo arbol, nuevo;
     inicializar_arbol(arbol);
     do{
         system("cls");
@@ -71,23 +71,31 @@ void menu_principal_gestion_jugador()
         {
         case 1:
         {
-            pnodo nuevo; // Mueve la declaración aquí
+            //pnodo nuevo; // Mueve la declaración aquí
             crear_nodo(nuevo,arbol);
             insertar(arbol, nuevo);
             break;
         }
-        case 2:
-            {
+        case 2: 
+        {
             tcad buscado;
-            cout<<"Ingrese nickname de jugador"<<endl;
-            cin>>buscado;
-            if(busqueda_datos(arbol,buscado)==NULL)
-                cout<<"Jugador no existe"<<endl;
-            else
-                cout<<"Jugador existe"<<endl;
+            cout << "Ingrese nickname de jugador: ";
+            cin >> buscado;
+
+            nuevo = busqueda_datos(arbol, buscado);
+
+            if (nuevo == NULL) {
+                cout << "Jugador no existe" << endl;
+            } else {
+                cout << "Jugador: " << nuevo->jugador.nombre << " " << nuevo->jugador.apellido 
+                    << " (" << nuevo->jugador.nickname << ") | Mejor Puntaje: " << nuevo->jugador.mejor_puntaje 
+                    << " | Puntaje Total: " << nuevo->jugador.puntaje_total 
+                    << " | Partidas Ganadas: " << nuevo->jugador.cantidad_partidas_ganadas << endl;
+            }
+
             system("pause");
             break;
-            }
+        }
         case 3:
             // Lógica para el caso 3
             system("pause");

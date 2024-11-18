@@ -19,9 +19,10 @@ typedef struct tnodo{
 };
 
 void inicializar_arbol(pnodo&p)
-{
-    p->izq = NULL;
-    p->der = NULL;
+{   
+    p=NULL;
+   //p->izq = NULL;
+   // p->der = NULL;
 }
 
 
