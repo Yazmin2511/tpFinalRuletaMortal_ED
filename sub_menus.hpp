@@ -2,7 +2,7 @@
 #include "abb_jugadores.hpp"
 using namespace std;
 
-
+pnodo arbol;
 
 void opciones() {
     
@@ -60,7 +60,6 @@ void menu_jugar(){
 void menu_principal_gestion_jugador()
 {
     int opcion;
-    pnodo arbol, nuevo;
     inicializar_arbol(arbol);
     do{
         system("cls");
@@ -69,56 +68,77 @@ void menu_principal_gestion_jugador()
       
         switch (opcion)
         {
-        case 1:
-        {
-            //pnodo nuevo; // Mueve la declaración aquí
+        case 1:     //Agregar jugador
+        {   
+            pnodo nuevo;
             crear_nodo(nuevo,arbol);
             insertar(arbol, nuevo);
             break;
         }
-        case 2: 
-        {
+        case 2:     //Consultar jugador
+        {   
+            pnodo jugador;
             tcad buscado;
             cout << "Ingrese nickname de jugador: ";
             cin >> buscado;
 
-            nuevo = busqueda_datos(arbol, buscado);
+            jugador = busqueda_datos(arbol, buscado);
 
-            if (nuevo == NULL) {
+            if (jugador == NULL) {
                 cout << "Jugador no existe" << endl;
             } else {
-                cout << "Jugador: " << nuevo->jugador.nombre << " " << nuevo->jugador.apellido 
-                    << " (" << nuevo->jugador.nickname << ") | Mejor Puntaje: " << nuevo->jugador.mejor_puntaje 
-                    << " | Puntaje Total: " << nuevo->jugador.puntaje_total 
-                    << " | Partidas Ganadas: " << nuevo->jugador.cantidad_partidas_ganadas << endl;
+                 mostrar_jugador(jugador);
             }
 
             system("pause");
             break;
         }
-        case 3:
-            // Lógica para el caso 3
+        case 3:     //Modificar jugador
+            tcad buscado;
+            pnodo nuevo;
+            std::cout<<"Ingrese el nickname del usuario a modificar ";
+            std::cin>>buscado;
+            nuevo=busqueda_datos(arbol,buscado);
             system("pause");
             break;
-        case 4:
-            // Lógica para el caso 4
-            //cout para elegir si mostrar en asc o desc
-            std::cout<<"_________________Jugadores______________"<<std::endl;
-            mostrar_orden(arbol,true);
+        case 4:     //Listar jugadores
+        {   
+            if(arbol != NULL)
+            {
+                char opcion;
+                do {
+                    std::cout << "Ver jugadores en orden ascendente o descendente? (A/D): ";
+                    std::cin >> opcion;
+                    opcion = toupper(opcion);
+                } while (opcion != 'A' && opcion != 'D');
+
+                std::cout << "_________________Jugadores______________" << std::endl;
+                mostrar_orden(arbol, opcion == 'A');
+            }
+            else
+                std::cout<<"No hay jugadores registrados"<<std::endl;
+            
             system("pause");
             break;
-        case 5:
-            // Lógica para el caso 5
+        }
+        case 5:     //Eliminar jugador
+        {   // Lógica para el caso 5
             system("pause");
             break;
+        } 
         case 6:
+        {
             std::cout << "sigue asi vamos guerrero" << std::endl;
             system("pause");
             break;
         default:
+        {   
             break;
+
         }
-       
+            
+        }
+        }
     } while (opcion != 6);
    
 }

@@ -21,8 +21,6 @@ typedef struct tnodo{
 void inicializar_arbol(pnodo&p)
 {   
     p=NULL;
-   //p->izq = NULL;
-   // p->der = NULL;
 }
 
 
@@ -64,9 +62,12 @@ void crear_nodo(pnodo&p , pnodo arbol)
 
             nickname_repetido = busqueda(arbol,p->jugador.nickname);
             if(nickname_repetido == true)
+            {
                 std::cout<<"Nickname no disponible"<<std::endl;
-
-            }while(nickname_repetido == true );
+                system("pause");
+            }
+                
+        }while(nickname_repetido == true );
         
 
         p->jugador.mejor_puntaje = 0;
@@ -124,11 +125,6 @@ void insertar(pnodo& arbol, pnodo nuevo)
     {
         insertar(arbol->der, nuevo); // Va a la derecha si es mayor
     }
-    else
-    {
-        std::cout << "Nickname duplicado " << nuevo->jugador.nickname << std::endl; // Manejo duplicados
-        delete(nuevo);
-    }
 }
 
 void mostrar_orden(pnodo arbol , bool asc)
@@ -148,9 +144,8 @@ void mostrar_orden(pnodo arbol , bool asc)
             mostrar_orden(arbol->izq,asc);
         }
     }
+    
 }
-
-
 
 pnodo busqueda_datos(pnodo a,tcad buscado) 
 { pnodo encontrado=NULL;
@@ -166,6 +161,32 @@ pnodo busqueda_datos(pnodo a,tcad buscado)
         }
     }
     return encontrado;
+}
+
+void mostrar_jugador(pnodo a)
+{
+    cout << "Jugador: " << a->jugador.nombre << " " << a->jugador.apellido 
+                    << " (" << a->jugador.nickname << ") | Mejor Puntaje: " << a->jugador.mejor_puntaje 
+                    << " | Puntaje Total: " << a->jugador.puntaje_total 
+                    << " | Partidas Ganadas: " << a->jugador.cantidad_partidas_ganadas << endl;
+}
+
+
+void modificar_jugador(pnodo arbol,tcad nickname)
+{
+    pnodo buscado = busqueda_datos(arbol,nickname);
+    if(buscado == NULL)
+        std::cout<<"Nickname no encontrado"<<endl;
+    else
+    {       // Falta la validacion de los campos
+        std::cout<<"Ingrese nuevo apellido ";
+        std::cin>>buscado->jugador.apellido;
+        std::cout<<"Ingrese nuevo nombre ";
+        std::cin>>buscado->jugador.nombre;
+
+        std::cout<<"Jugador modificado "<<std::endl;
+        mostrar_jugador(buscado);
+    }
 }
 
 // pnodo eliminar(pnodo &a,pnodo valor)
