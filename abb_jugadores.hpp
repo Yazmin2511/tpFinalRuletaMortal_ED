@@ -79,6 +79,7 @@ void crear_nodo(pnodo&p , pnodo arbol)
     }
 }
 
+//Eliminar si no lo usamos 
 void crear_nodo_temp(pnodo &p, const char *nombre, const char *apellido, const char *nickname) 
 { p = new tnodo; 
     if (p == NULL) 
@@ -270,3 +271,17 @@ pnodo eliminar_nodo(pnodo& arbol, tcad nickname, pnodo& padre) {
 //     }
 //     return aux;
 // }
+
+
+int cantidad_jugadores(pnodo arbol)
+{
+    int cant;
+    if(arbol == NULL)
+        return 0;
+    else
+    {
+        cant=cantidad_jugadores(arbol->izq)+cantidad_jugadores(arbol->der)+1;
+    }
+
+    return cant;
+}

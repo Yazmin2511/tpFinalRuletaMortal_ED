@@ -3,7 +3,7 @@
 #include "archivos_jugadores.hpp"
 using namespace std;
 
-pnodo arbol;
+pnodo jugadores = NULL;
 
 void opciones() {
     
@@ -15,7 +15,7 @@ void opciones() {
     cout << "2. Crear ruleta de palabras" << endl;
     cout << "3. Jugar" << endl;
     cout << "4. Cuadro de honor" << endl;
-    cout << "5. Salir" << endl;
+    cout << "5. Salir del juego" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
@@ -30,7 +30,7 @@ void menu_gestion_jugadores(){
     cout << "3. Modificar jugador" << endl;
     cout << "4. Lista de jugadores" << endl;
     cout << "5. Eliminar jugador" << endl;
-    cout << "6. Salir" << endl;
+    cout << "6. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
@@ -42,7 +42,7 @@ void menu_crear_ruletas_palabras(){
     cout << "1. Registrar palabras" << endl;
     cout << "2. GENERAR RULETA" << endl;
     cout << "3. Mostrar ruleta" << endl;
-    cout << "4. Salir" << endl;
+    cout << "4. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
@@ -54,14 +54,13 @@ void menu_jugar(){
     cout << "1. Registrar palabras" << endl;
     cout << "2. GENERAR RULETA" << endl;
     cout << "3. Mostrar ruleta" << endl;
-    cout << "4. Salir" << endl;
+    cout << "4. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
 void menu_principal_gestion_jugador()
 {
     int opcion;
-    pnodo arbol = NULL;
     tcad archivo = "jugadores.txt";
     
     do{
@@ -72,7 +71,7 @@ void menu_principal_gestion_jugador()
         switch (opcion)
         {
         case 1:     
-        agregar_jugador(archivo, arbol);
+        agregar_jugador(archivo, jugadores);
          break;
         case 2:     
             {
@@ -199,8 +198,19 @@ void menu()
         case 2:
             menu_principal_ruleta_palabras();
             break;
-        case 3:
-            menu_principal_jugar();
+        case 3: //Jugar
+            if(jugadores == NULL)
+                std::cout<<"No hay jugadores registrados"<<std::endl;
+            else
+            {
+                if(cantidad_jugadores(jugadores) < 2)
+                    std::cout<<"Necesita al menos 2 jugadores para iniciar el juego"<<std::endl;
+                else
+                {   
+                    menu_principal_jugar();
+                }
+            }
+            system("pause");
             break;
         case 4:
             
