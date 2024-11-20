@@ -189,6 +189,45 @@ void modificar_jugador(pnodo arbol,tcad nickname)
     }
 }
 
+
+pnodo eliminar_nodo(pnodo& arbol, tcad nickname, pnodo& padre) {
+    if (!arbol) {
+        return NULL; // Nodo no encontrado
+    }
+
+    if (strcmp(nickname, arbol->jugador.nickname) < 0) {
+        return eliminar_nodo(arbol->izq, nickname, arbol);
+    } else if (strcmp(nickname, arbol->jugador.nickname) > 0) {
+        return eliminar_nodo(arbol->der, nickname, arbol);
+    } else { // Nodo encontrado
+        pnodo eliminado = arbol;
+
+        // Caso 1: Nodo sin hijos
+        if (!arbol->izq && !arbol->der) {
+            arbol = NULL;
+        }
+        // Caso 2: Nodo con un hijo
+        else if (!arbol->izq) {
+            arbol = arbol->der;
+        } else if (!arbol->der) {
+            arbol = arbol->izq;
+        }
+        // Caso 3: Nodo con dos hijos
+        else {
+            pnodo sucesor = arbol->der;
+            pnodo padre_sucesor = arbol;
+            while (sucesor->izq) {
+                padre_sucesor = sucesor;
+                sucesor = sucesor->izq;
+            }
+            arbol->jugador = sucesor->jugador; // Copiar datos del sucesor
+            eliminado = eliminar_nodo(arbol->der, sucesor->jugador.nickname, padre_sucesor);
+        }
+
+        return eliminado;
+    }
+}
+
 // pnodo eliminar(pnodo &a,pnodo valor)
 // {
 //     pnodo aux; 

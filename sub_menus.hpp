@@ -1,5 +1,6 @@
 #include <iostream>
-#include "abb_jugadores.hpp"
+//#include "abb_jugadores.hpp"
+#include "archivos_jugadores.hpp"
 using namespace std;
 
 pnodo arbol;
@@ -60,7 +61,9 @@ void menu_jugar(){
 void menu_principal_gestion_jugador()
 {
     int opcion;
-    inicializar_arbol(arbol);
+    pnodo arbol = NULL;
+    tcad archivo = "jugadores.txt";
+    
     do{
         system("cls");
         menu_gestion_jugadores();
@@ -68,62 +71,39 @@ void menu_principal_gestion_jugador()
       
         switch (opcion)
         {
-        case 1:     //Agregar jugador
-        {   
-            pnodo nuevo;
-            crear_nodo(nuevo,arbol);
-            insertar(arbol, nuevo);
-            break;
-        }
-        case 2:     //Consultar jugador
-        {   
-            pnodo jugador;
-            tcad buscado;
-            cout << "Ingrese nickname de jugador: ";
-            cin >> buscado;
-
-            jugador = busqueda_datos(arbol, buscado);
-
-            if (jugador == NULL) {
-                cout << "Jugador no existe" << endl;
-            } else {
-                 mostrar_jugador(jugador);
-            }
-
-            system("pause");
-            break;
-        }
-        case 3:     //Modificar jugador
-            tcad buscado;
-            pnodo nuevo;
-            std::cout<<"Ingrese el nickname del usuario a modificar ";
-            std::cin>>buscado;
-            nuevo=busqueda_datos(arbol,buscado);
-            system("pause");
-            break;
-        case 4:     //Listar jugadores
-        {   
-            if(arbol != NULL)
+        case 1:     
+        agregar_jugador(archivo, arbol);
+         break;
+        case 2:     
             {
-                char opcion;
-                do {
-                    std::cout << "Ver jugadores en orden ascendente o descendente? (A/D): ";
-                    std::cin >> opcion;
-                    opcion = toupper(opcion);
-                } while (opcion != 'A' && opcion != 'D');
-
-                std::cout << "_________________Jugadores______________" << std::endl;
-                mostrar_orden(arbol, opcion == 'A');
-            }
-            else
-                std::cout<<"No hay jugadores registrados"<<std::endl;
-            
+            tcad buscado;
+            std::cout<<"Ingrese el nickname del usuario a buscar ";
+            std::cin>>buscado;
+            buscar_jugador(archivo, buscado);
             system("pause");
             break;
-        }
-        case 5:     //Eliminar jugador
-        {   // Lógica para el caso 5
-            system("pause");
+            }
+        
+        break;
+        case 3:     //Modificar jugador
+            {
+                tcad nickname;
+                std::cout << "Ingrese nickname a modificar: ";
+                std::cin >> nickname;
+                modificar_jugador_archivo(archivo, nickname);
+                break;
+            }
+        case 4:   
+
+                listar_jugadores(archivo, true);
+                system("pause");
+                break;
+        case 5:     
+        {   
+            tcad nickname;
+            std::cout << "Ingrese nickname a eliminar: ";
+            std::cin >> nickname;
+            eliminar_jugador(archivo, nickname);
             break;
         } 
         case 6:
