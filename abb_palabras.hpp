@@ -1,72 +1,91 @@
 #include <iostream>
 #include <cstring> 
 typedef char tcad[50];
-typedef struct tnodo *pnodo;
-typedef struct tsinonimo *psinonimo;
+typedef tcad tsinonimo[3];
 
-typedef struct tpalabra{
+typedef struct tpalabra *ppalabra;
+
+typedef struct palabra{
     tcad palabra;  
     tcad definicion;
-    psinonimo sinonimos;  // Sinonimos puede ser NULL
+    tsinonimo sinonimos;  // Sinonimos puede ser NULL
+    int cant_sinonimo;
 };
 
-typedef struct tnodo{
-    tpalabra palabra;
-    pnodo izq;
-    pnodo der;
+typedef struct tpalabra{
+    palabra pal;
+    ppalabra izq;
+    ppalabra der;
 };
 
-typedef struct tsinonimo{
-    tcad palabra;
-    pnodo sig;
-};
 
-void inicializar_arbol_palabras(pnodo&p)
+
+void inicializar_arbol_palabras(ppalabra&p)
 {   
     p=NULL;
+    p->pal.cant_sinonimo=0;
 }
 
-bool busqueda(pnodo p, tcad nueva_palabra){
+bool busqueda_palabra(ppalabra p, tcad nueva_palabra){
     bool encontrado;
     if(p==NULL){
         return false;
     }else{
-        if(strcmp(p->palabra.palabra, nueva_palabra) == 0)
+        if(strcmp(p->pal.palabra, nueva_palabra) == 0)
             return true;
         else{
-            if(p->palabra.palabra[0] >nueva_palabra[0])
-                encontrado=busqueda(p->izq,nueva_palabra);
+            if(p->pal.palabra[0] >nueva_palabra[0])
+                encontrado=busqueda_palabra(p->izq,nueva_palabra);
             else
-                encontrado=busqueda(p->der,nueva_palabra);
+                encontrado=busqueda_palabra(p->der,nueva_palabra);
         }
     }
 
     return encontrado;
 }
 
-void crear_nodo_palabras(pnodo&p , pnodo arbol)
+ppalabra busqueda_palabra_datos(ppalabra p, tcad nueva_palabra){
+    bool encontrado;
+    if(p==NULL){
+        return NULL;
+    }else{
+        if(strcmp(p->pal.palabra, nueva_palabra) == 0)
+            return p;
+        else{
+            if(p->pal.palabra[0] >nueva_palabra[0])
+                encontrado=busqueda_palabra_datos(p->izq,nueva_palabra);
+            else
+                encontrado=busqueda_palabra_datos(p->der,nueva_palabra);
+        }
+    }
+
+    return NULL;
+}
+
+void crear_nodo_palabras(ppalabra&p , ppalabra arbol)
 {   bool palabra_repetida=true , ingresar_mas=true;
     tcad resp;
-    p = new tnodo;
+    p = new tpalabra;
     if(p == NULL)
         std::cout<<"Memoria llena"<<std::endl;
     else
     {   
         //Validacion de que la palabra no esta repetida
             std::cout<<"Ingrese palabra"<<std::endl;
-            std::cin>>p->palabra.palabra;
+            std::cin>>p->pal.palabra;
 
             std::cout<<"Ingrese definicion"<<std::endl;
-            std::cin>>p->palabra.definicion;
+            std::cin>>p->pal.definicion;
 
             std::cout<<"Desea ingresar un sinonimo?"<< std::endl;
             std::cin>>resp;
             //inicializar sinonimo
-            while(strcmp(resp,"si") == 0)
+            while(strcmp(resp,"si") == 0 && p->pal.cant_sinonimo < 3)
             {
 
                 std::cout<<"Ingrese sinonimo"<<std::endl;
-                std::cin>>p->palabra.sinonimos->palabra;
+                std::cin>>p->pal.sinonimos[p->pal.cant_sinonimo];
+                p->pal.cant_sinonimo++;
 
                 
             }  // Se quieran ingresar + sinonimos
@@ -75,4 +94,18 @@ void crear_nodo_palabras(pnodo&p , pnodo arbol)
         p->izq = NULL;
         p->der = NULL;
     }
+}
+
+ppalabra eliminar_palabra(ppalabra arbol)
+{
+    return NULL;
+}
+
+void listar_palabrass(ppalabra arbol)
+{
+
+}
+
+void agregar_palabra(ppalabra&arbol,ppalabra nuevo)
+{
 }
