@@ -1,18 +1,27 @@
 #include <iostream>
-#include <fstream>
 #include <cstring> // Para strcpy y strcmp
+#include <cstdio>
 #include "abb_jugadores.hpp" // Aquí están las funciones del ABB que definiste
+
+// Función recursiva auxiliar para guardar en orden
+void guardar_inorden(pnodo arbol, FILE *file) {
+    if (arbol != NULL) {
+        guardar_inorden(arbol->izq, file);
+        fwrite(&(arbol->jugador), sizeof(tjugador), 1, file);
+        guardar_inorden(arbol->der, file);
+    }
+}
 
 // Función para cargar jugadores desde el archivo binario al ABB
 void cargar_jugadores_desde_archivo(tcad archivo, pnodo& arbol) {
-    std::ifstream file(archivo, std::ios::binary);
-    if (!file) {
+    FILE *file = fopen(archivo, "rb");
+    if (file == NULL) {
         std::cout << "El archivo no existe o no pudo abrirse.\n";
         return;
     }
-    
+
     tjugador temp_jugador;
-    while (file.read(reinterpret_cast<char*>(&temp_jugador), sizeof(tjugador))) {
+    while (fread(&temp_jugador, sizeof(tjugador), 1, file)) {
         pnodo nuevo;
         crear_nodo_temp(nuevo, temp_jugador.nombre, temp_jugador.apellido, temp_jugador.nickname);
         nuevo->jugador.mejor_puntaje = temp_jugador.mejor_puntaje;
@@ -21,28 +30,19 @@ void cargar_jugadores_desde_archivo(tcad archivo, pnodo& arbol) {
         insertar(arbol, nuevo);
     }
     
-    file.close();
+    fclose(file);
 }
 
 // Función para guardar los jugadores del ABB en un archivo binario (sobreescribe el archivo)
 void guardar_jugadores_en_archivo(tcad archivo, pnodo arbol) {
-    std::ofstream file(archivo, std::ios::binary | std::ios::trunc);
-    if (!file) {
+    FILE *file = fopen(archivo, "wb");
+    if (file == NULL) {
         std::cout << "No se pudo abrir el archivo para escritura.\n";
         return;
     }
 
-    // Función recursiva auxiliar para guardar en orden
-    auto guardar_inorden = [](pnodo arbol, std::ofstream& file, auto& guardar_inorden_ref) -> void {
-        if (arbol) {
-            guardar_inorden_ref(arbol->izq, file, guardar_inorden_ref);
-            file.write(reinterpret_cast<const char*>(&arbol->jugador), sizeof(tjugador));
-            guardar_inorden_ref(arbol->der, file, guardar_inorden_ref);
-        }
-    };
-
-    guardar_inorden(arbol, file, guardar_inorden);
-    file.close();
+    guardar_inorden(arbol, file);
+    fclose(file);
 }
 
 // Función para agregar un jugador
@@ -62,7 +62,7 @@ void listar_jugadores(tcad archivo, bool ascendente) {
     pnodo arbol = NULL;
     cargar_jugadores_desde_archivo(archivo, arbol);
 
-    if (!arbol) {
+    if (arbol == NULL) {
         std::cout << "No hay jugadores registrados.\n";
         return;
     }
@@ -77,7 +77,7 @@ void buscar_jugador(tcad archivo, tcad nickname) {
     cargar_jugadores_desde_archivo(archivo, arbol);
 
     pnodo encontrado = busqueda_datos(arbol, nickname);
-    if (encontrado) {
+    if (encontrado != NULL) {
         mostrar_jugador(encontrado);
     } else {
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n";
@@ -90,7 +90,7 @@ void modificar_jugador_archivo(tcad archivo, tcad nickname) {
     cargar_jugadores_desde_archivo(archivo, arbol);
 
     pnodo encontrado = busqueda_datos(arbol, nickname);
-    if (!encontrado) {
+    if (encontrado == NULL) {
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n";
         return;
     }
@@ -106,7 +106,7 @@ void eliminar_jugador(tcad archivo, tcad nickname) {
 
     pnodo padre = NULL;
     pnodo eliminado = eliminar_nodo(arbol, nickname, padre); // Implementa la función `eliminar_nodo` en tu ABB
-    if (!eliminado) {
+    if (eliminado == NULL) {
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n";
     } else {
         std::cout << "Jugador eliminado correctamente.\n";
