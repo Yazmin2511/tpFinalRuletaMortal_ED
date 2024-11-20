@@ -165,10 +165,10 @@ pnodo busqueda_datos(pnodo a,tcad buscado)
 
 void mostrar_jugador(pnodo a)
 {
-    cout << "Jugador: " << a->jugador.nombre << " " << a->jugador.apellido 
+    std::cout << "Jugador: " << a->jugador.nombre << " " << a->jugador.apellido 
                     << " (" << a->jugador.nickname << ") | Mejor Puntaje: " << a->jugador.mejor_puntaje 
                     << " | Puntaje Total: " << a->jugador.puntaje_total 
-                    << " | Partidas Ganadas: " << a->jugador.cantidad_partidas_ganadas << endl;
+                    << " | Partidas Ganadas: " << a->jugador.cantidad_partidas_ganadas << std::endl;
 }
 
 
@@ -176,7 +176,7 @@ void modificar_jugador(pnodo arbol,tcad nickname)
 {
     pnodo buscado = busqueda_datos(arbol,nickname);
     if(buscado == NULL)
-        std::cout<<"Nickname no encontrado"<<endl;
+        std::cout<<"Nickname no encontrado"<<std::endl;
     else
     {       // Falta la validacion de los campos
         std::cout<<"Ingrese nuevo apellido ";
