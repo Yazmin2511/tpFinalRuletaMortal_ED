@@ -93,6 +93,7 @@ int contar_palabras(FILE *file) {
     return total_palabras;
 }
 
+
 // Función para verificar si un índice ya fue seleccionado
 bool indice_seleccionado(int indices[], int cantidad_seleccionada, int indice_actual) {
     for (int i = 0; i < cantidad_seleccionada; i++) {
