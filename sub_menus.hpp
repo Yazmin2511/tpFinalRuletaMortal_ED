@@ -2,12 +2,13 @@
 //#include "abb_jugadores.hpp"
 #include "archivos_jugadores.hpp"
 #include "archivo_palabras.hpp"
-//#include "lista_doble_dospunteros.hpp"
+#include "lista_doble_dospunteros.hpp"
 #include "t_cad.hpp"
 using namespace std;
 
 pjugador jugadores = NULL;
 ppalabra palabras=NULL;
+listaRuleta lis;
 void opciones() {
     
     cout << "=====================================" << endl;
@@ -145,13 +146,14 @@ void menu_principal_ruleta_palabras()
             { int cantidad; 
                 cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
                 cin >> cantidad; 
-               // generar_ruleta(archivo, lis, cantidad); 
+                generar_ruleta(archivo, lis, cantidad); 
                 break; 
             }
          
          
         case 3:
-          //  mostrar(lis);
+          //  
+            mostrar_ruleta_palabra(lis);
             system("pause");
             break;
       

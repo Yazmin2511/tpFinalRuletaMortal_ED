@@ -7,7 +7,7 @@
 void guardar_inorden(pjugador arbol, FILE *file) {
     if (arbol != NULL) {
         guardar_inorden(arbol->izq, file);
-        fwrite(&(arbol->jugador), sizeof(tjugador), 1, file);
+        fwrite(&(arbol->jugador), sizeof(player), 1, file);
         guardar_inorden(arbol->der, file);
     }
 }
@@ -21,15 +21,24 @@ void cargar_jugadores_desde_archivo(tcad archivo, pjugador& arbol) {
     }
 
     player temp_jugador;
-    while (fread(&temp_jugador, sizeof(tjugador), 1, file)) {
-        pjugador nuevo;
-        crear_nodo_temp(nuevo, temp_jugador.nombre, temp_jugador.apellido, temp_jugador.nickname);
+    while (fread(&temp_jugador, sizeof(player), 1, file)) {
+        pjugador nuevo = new tjugador;
+        if (nuevo == NULL) {
+            std::cout << "Memoria llena\n";
+            fclose(file);
+            return;
+        }
+        strcpy(nuevo->jugador.nombre, temp_jugador.nombre);
+        strcpy(nuevo->jugador.apellido, temp_jugador.apellido);
+        strcpy(nuevo->jugador.nickname, temp_jugador.nickname);
         nuevo->jugador.mejor_puntaje = temp_jugador.mejor_puntaje;
         nuevo->jugador.puntaje_total = temp_jugador.puntaje_total;
         nuevo->jugador.cantidad_partidas_ganadas = temp_jugador.cantidad_partidas_ganadas;
+        nuevo->izq = NULL;
+        nuevo->der = NULL;
         insertar(arbol, nuevo);
     }
-    
+
     fclose(file);
 }
 

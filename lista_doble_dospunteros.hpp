@@ -4,32 +4,44 @@
 #include <cstring> // Para strcpy y strcmp
 #include <cstdio> // Para fopen, fread y fclose
 #include <algorithm> // Para std::sort
-#include "abb_palabras.hpp"
+
 #include "t_cad.hpp"
 
-
-// TDA DE LISTAS DOBLES
-typedef struct tnodo *pnodo;
-struct tnodo {
+typedef tcad tsinonimo_ruleta[3]; 
+typedef struct tpalabra_ruleta *ppalabra_ruleta;
+typedef struct palabra_rul{
+    tcad palabra;
+    tcad definicion;
+    tsinonimo_ruleta sinonimos; // Sinonimos puede ser NULL 
+    int cant_sinonimo;
+}; 
+typedef struct tpalabra_ruleta{ 
+    palabra_rul pal; 
+    ppalabra_ruleta izq; 
+    ppalabra_ruleta der; 
+};
+// TDA DE listaRuletaS DOBLES
+typedef struct truleta *pruleta;
+struct truleta {
     tcad dato;
-    pnodo ant; 
-    pnodo sig; 
+    pruleta ant; 
+    pruleta sig; 
 };
 
-struct lista {
-    pnodo inicio;
-    pnodo fin;
+struct listaRuleta {
+    pruleta inicio;
+    pruleta fin;
 };
 
-void iniciar(lista & lis)
+void inicializar_ruleta_palabras(listaRuleta & lis)
 {
     lis.inicio = NULL;
     lis.fin = NULL;
 }
 
-void crear(pnodo &nuevo, tcad valor)
+void crear_ruleta_palabra(pruleta &nuevo, tcad valor)
 {
-    nuevo = new tnodo;
+    nuevo = new truleta;
     if (nuevo != NULL)
     {
         strcpy(nuevo->dato, valor);
@@ -42,7 +54,7 @@ void crear(pnodo &nuevo, tcad valor)
     }
 }
 
-void agregar_inicio(lista &lis, pnodo nuevo)
+void agregar_inicio_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
 {
     if (lis.inicio == NULL) // vacia
     {
@@ -57,7 +69,7 @@ void agregar_inicio(lista &lis, pnodo nuevo)
     }
 }
 
-void agregar_final(lista &lis, pnodo nuevo)
+void agregar_final_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
 {
     if (lis.inicio == NULL) // vacia
     {
@@ -72,9 +84,9 @@ void agregar_final(lista &lis, pnodo nuevo)
     }
 }
 
-void agregar_orden(lista &lis, pnodo nuevo)
+void agregar_orden_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
 {
-    pnodo i;
+    pruleta i;
     if (lis.inicio == NULL) // vacia
     {
         lis.inicio = nuevo;
@@ -83,11 +95,11 @@ void agregar_orden(lista &lis, pnodo nuevo)
     else
     {
         if (strcmp(nuevo->dato, lis.inicio->dato) <= 0) // agregar inicio
-            agregar_inicio(lis, nuevo);
+            agregar_inicio_ruleta_palabra(lis, nuevo);
         else
         { 
             if (strcmp(nuevo->dato, lis.fin->dato) >= 0) // agregar final
-                agregar_final(lis, nuevo);
+                agregar_final_ruleta_palabra(lis, nuevo);
             else
             { // no analiza lis.fin
                 for (i = lis.inicio->sig; i->sig != lis.fin && strcmp(nuevo->dato, i->dato) > 0; i = i->sig);
@@ -101,9 +113,9 @@ void agregar_orden(lista &lis, pnodo nuevo)
     }
 }
 
-pnodo quitar_inicio(lista &lis)
+pruleta quitar_inicio(listaRuleta &lis)
 { 
-    pnodo aux = NULL;
+    pruleta aux = NULL;
     if (lis.inicio != NULL)
     {
         aux = lis.inicio;
@@ -122,9 +134,9 @@ pnodo quitar_inicio(lista &lis)
     return aux;
 }
 
-pnodo quitar_final(lista &lis)
+pruleta quitar_final_ruleta_palabra(listaRuleta &lis)
 { 
-    pnodo aux = NULL;
+    pruleta aux = NULL;
     if (lis.inicio != NULL)
     {
         aux = lis.fin;
@@ -143,9 +155,9 @@ pnodo quitar_final(lista &lis)
     return aux;
 }
 
-pnodo quitar_nodo(lista &lis, tcad valor)
+pruleta quitar_nodo_palabra(listaRuleta &lis, tcad valor)
 { 
-    pnodo i, aux = NULL;
+    pruleta i, aux = NULL;
     if (lis.inicio != NULL)
     {
         if (strcmp(lis.inicio->dato, valor) == 0) // extracción del primero
@@ -153,7 +165,7 @@ pnodo quitar_nodo(lista &lis, tcad valor)
         else
         { 
             if (strcmp(lis.fin->dato, valor) == 0) // extracción último
-                aux = quitar_final(lis);
+                aux = quitar_final_ruleta_palabra(lis);
             else
             {
                 for (i = lis.inicio->sig; i != lis.fin && strcmp(valor, i->dato) != 0; i = i->sig);
@@ -171,9 +183,9 @@ pnodo quitar_nodo(lista &lis, tcad valor)
     return aux;
 }
 
-void mostrar(lista lis)
+void mostrar_ruleta_palabra(listaRuleta lis)
 {
-    pnodo i;
+    pruleta i;
     if (lis.inicio != NULL)
     {
         for (i = lis.inicio; i != NULL; i = i->sig)
@@ -181,12 +193,12 @@ void mostrar(lista lis)
         std::cout << std::endl;
     }
     else
-        std::cout << "LISTA VACIA" << std::endl;
+        std::cout << "listaRuleta VACIA" << std::endl;
 }
 
-bool buscar(lista lis, tcad valor)
+bool buscar_ruleta_palabra(listaRuleta lis, tcad valor)
 {
-    pnodo i = NULL;
+    pruleta i = NULL;
     if (lis.inicio != NULL)
     {
         for (i = lis.inicio; i != NULL && strcmp(i->dato, valor) != 0; i = i->sig);
@@ -200,7 +212,7 @@ bool comparacion(int a, int b) {
 }
 
 // Función para cargar una ruleta de palabras desde el archivo binario
-void generar_ruleta(tcad archivo, lista &lis, int cantidad_palabras) {
+void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
     if (cantidad_palabras < 5) {
         std::cout << "La cantidad mínima de palabras es 5." << std::endl;
         return;
@@ -212,8 +224,8 @@ void generar_ruleta(tcad archivo, lista &lis, int cantidad_palabras) {
     }
     // Contar el total de palabras en el archivo
     int total_palabras = 0;
-    palabra temp_palabra;
-    while (fread(&temp_palabra, sizeof(palabra), 1, file)) {
+    palabra_rul temp_palabra;
+    while (fread(&temp_palabra, sizeof(palabra_rul), 1, file)) {
         total_palabras++;
     }
     if (total_palabras < cantidad_palabras) {
@@ -229,16 +241,16 @@ void generar_ruleta(tcad archivo, lista &lis, int cantidad_palabras) {
     }
     // Ordenar los índices para facilitar la lectura secuencial del archivo
     std::sort(indices, indices + cantidad_palabras, comparacion);
-    // Leer y agregar las palabras seleccionadas a la lista doble
+    // Leer y agregar las palabras seleccionadas a la listaRuleta doble
     rewind(file);
     int indice_actual = 0;
     int indice_seleccionado = indices[indice_actual];
     int contador = 0;
     while (fread(&temp_palabra, sizeof(palabra), 1, file)) {
         if (contador == indice_seleccionado) {
-            pnodo nuevo;
-            crear(nuevo, temp_palabra.palabra); // Usamos temp_palabra.palabra
-            agregar_final(lis, nuevo);
+            pruleta nuevo;
+            crear_ruleta_palabra(nuevo, temp_palabra.palabra); // Usamos temp_palabra.palabra
+            agregar_final_ruleta_palabra(lis, nuevo);
             indice_actual++;
             if (indice_actual >= cantidad_palabras) {
                 break;
