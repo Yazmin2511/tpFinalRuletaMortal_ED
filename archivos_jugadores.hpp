@@ -67,7 +67,11 @@ void listar_jugadores(tcad archivo, bool ascendente) {
         return;
     }
 
-    std::cout << "Listado de jugadores:\n";
+    std::cout << "\n"; 
+    std::cout << "====================================" << std::endl; 
+    std::cout << " *** Jugadores *** " << std::endl; 
+    std::cout << "====================================" << std::endl; 
+    std::cout << "\n";
     mostrar_orden(arbol, ascendente); // Mostrar jugadores en orden ascendente o descendente
 }
 

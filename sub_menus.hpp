@@ -5,7 +5,7 @@
 #include "lista_doble_dospunteros.hpp"
 using namespace std;
 
-
+pnodo jugadores = NULL;
 
 void opciones() {
     
@@ -62,7 +62,7 @@ void menu_jugar(){
 }
 void menu_principal_gestion_jugador()
 {
-    pnodo jugadores = NULL;
+    
     int opcion;
     tcad archivo = "jugadores.dat";
     
@@ -226,7 +226,13 @@ void menu()
             system("pause");
             break;
         case 4:
-            
+        {   tcad resp;
+            std::cout<<"Mostrar puntajes en orden asc o desc? (asc/desc)"<<std::endl;
+            std::cin>>resp;
+            bool asc = strcmp(resp,"asc")==0;
+            mostrar_cuadro_honor(jugadores,asc);
+            system("pause");
+        }
             break;
         case 5:
             cout<<"Bye valiente jugador"<<endl;

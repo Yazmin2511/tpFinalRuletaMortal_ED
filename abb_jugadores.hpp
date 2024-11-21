@@ -257,5 +257,16 @@ void generar_cuadro_de_honor(pnodo arbol,pnodo&aux)
 void mostrar_cuadro_honor(pnodo arbol,bool asc)
 {pnodo aux=NULL;
     generar_cuadro_de_honor(arbol,aux);
-    mostrar_orden(aux,asc);
+    if(aux =NULL)
+        std::cout<<"No hay jugadores con puntajes mayores a 0"<<std::endl;
+    else
+    {
+        std::cout << "\n"; 
+        std::cout << "====================================" << std::endl; 
+        std::cout << " *** Cuadro de Honor *** " << std::endl; 
+        std::cout << "====================================" << std::endl; 
+        std::cout << "\n";
+         mostrar_orden(aux,asc);
+    }
+       
 }
