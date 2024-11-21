@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring> // Para strcpy y strcmp
 #include <cstdio>
-#include "abb_palabras.hpp" // Aquí están las funciones del ABB que definiste
+#include "abb_palabras.hpp" 
 
 // Función recursiva auxiliar para guardar en orden
 void guardar_inorden(ppalabra arbol, FILE *file) {

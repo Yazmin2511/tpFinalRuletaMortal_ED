@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring> 
-typedef char tcad[50];
-typedef tcad tsinonimo[3];
+#include "t_cad.hpp"
 
 typedef struct tpalabra *ppalabra;
 
@@ -77,7 +76,7 @@ void crear_nodo_palabras(ppalabra&p , ppalabra arbol)
                 palabra_repetida = busqueda_palabra(arbol,p->pal.palabra);
                 if(palabra_repetida == true)
                     std::cout<<"Esta palabra ya esta registrada"<<std::endl;
-            }while(palabra_repetida == true)
+            }while(palabra_repetida == true);
             
 
             std::cout<<"Ingrese definicion"<<std::endl;
@@ -132,5 +131,4 @@ void agregar_palabra(ppalabra&arbol,ppalabra nuevo)
     {
         agregar_palabra(arbol->der, nuevo); 
     }
-}
 }

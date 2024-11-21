@@ -4,23 +4,9 @@
 #include <cstring> // Para strcpy y strcmp
 #include <cstdio> // Para fopen, fread y fclose
 #include <algorithm> // Para std::sort
+#include "abb_palabras.hpp"
+#include "t_cad.hpp"
 
-typedef char tcad[50];
-typedef tcad tsinonimo[3]; 
-
-typedef struct tpalabra *ppalabra; 
-typedef struct palabra{ 
-    tcad palabra; 
-    tcad definicion; 
-    tsinonimo sinonimos; // Sinonimos puede ser NULL 
-    int cant_sinonimo; 
-}; 
-
-typedef struct tpalabra{ 
-    palabra pal; 
-    ppalabra izq;
-    ppalabra der;
-};
 
 // TDA DE LISTAS DOBLES
 typedef struct tnodo *pnodo;
