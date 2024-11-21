@@ -235,7 +235,7 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
     }
     // Seleccionar aleatoriamente las palabras
     srand(time(NULL));
-    int indices[cantidad_palabras];
+    int *indices = new int[cantidad_palabras];
     for (int i = 0; i < cantidad_palabras; ++i) {
         indices[i] = rand() % total_palabras;
     }
@@ -246,7 +246,7 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
     int indice_actual = 0;
     int indice_seleccionado = indices[indice_actual];
     int contador = 0;
-    while (fread(&temp_palabra, sizeof(palabra), 1, file)) {
+    while (fread(&temp_palabra, sizeof(palabra_rul), 1, file)) {
         if (contador == indice_seleccionado) {
             pruleta nuevo;
             crear_ruleta_palabra(nuevo, temp_palabra.palabra); // Usamos temp_palabra.palabra
@@ -259,6 +259,6 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
         }
         contador++;
     }
+    delete[] indices;
     fclose(file);
 }
-

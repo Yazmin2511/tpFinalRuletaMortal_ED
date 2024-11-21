@@ -130,7 +130,7 @@ void menu_principal_gestion_jugador()
 void menu_principal_ruleta_palabras()
 {
    
-    tcad archivo = "palabras.dat";
+    tcad archivo_palabras = "palabras.dat";
    // lista lis;//lista doble
     int opcion ;
     do{
@@ -140,13 +140,13 @@ void menu_principal_ruleta_palabras()
         switch (opcion)
         {
         case 1:
-            registrar_palabra(archivo,palabras);
+            registrar_palabra(archivo_palabras,palabras);
             break;
         case 2:
             { int cantidad; 
                 cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
                 cin >> cantidad; 
-                generar_ruleta(archivo, lis, cantidad); 
+                generar_ruleta(archivo_palabras, lis, cantidad); 
                 break; 
             }
          

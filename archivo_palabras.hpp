@@ -1,9 +1,8 @@
 #include <iostream>
-#include <cstring> // Para strcpy y strcmp
+#include <cstring>
 #include <cstdio>
-#include "abb_palabras.hpp" 
+#include "abb_palabras.hpp"
 
-// Función recursiva auxiliar para guardar en orden
 void guardar_inorden(ppalabra arbol, FILE *file) {
     if (arbol != NULL) {
         guardar_inorden(arbol->izq, file);
@@ -12,8 +11,7 @@ void guardar_inorden(ppalabra arbol, FILE *file) {
     }
 }
 
-// Función para cargar palabras desde el archivo binario al ABB
-void cargar_palabras_desde_archivo(tcad archivo, ppalabra& arbol) {
+void cargar_palabras_desde_archivo(tcad archivo, ppalabra &arbol) {
     FILE *file = fopen(archivo, "rb");
     if (file == NULL) {
         std::cout << "El archivo no existe o no pudo abrirse.\n";
@@ -22,8 +20,7 @@ void cargar_palabras_desde_archivo(tcad archivo, ppalabra& arbol) {
 
     palabra temp_palabra;
     while (fread(&temp_palabra, sizeof(palabra), 1, file)) {
-        ppalabra nuevo;
-        nuevo = new tpalabra;
+        ppalabra nuevo = new tpalabra;
         if (nuevo == NULL) {
             std::cout << "Memoria llena\n";
             fclose(file);
@@ -43,7 +40,6 @@ void cargar_palabras_desde_archivo(tcad archivo, ppalabra& arbol) {
     fclose(file);
 }
 
-// Función para guardar las palabras del ABB en un archivo binario (sobreescribe el archivo)
 void guardar_palabras_en_archivo(tcad archivo, ppalabra arbol) {
     FILE *file = fopen(archivo, "wb");
     if (file == NULL) {
@@ -55,17 +51,21 @@ void guardar_palabras_en_archivo(tcad archivo, ppalabra arbol) {
     fclose(file);
 }
 
-// Función para registrar una palabra
-void registrar_palabra(tcad archivo, ppalabra& arbol) {
-    cargar_palabras_desde_archivo(archivo, arbol); // Cargar palabras desde el archivo al ABB
+void registrar_palabra(tcad archivo, ppalabra &arbol) {
+    FILE *file_check = fopen(archivo, "rb");
+    if (file_check != NULL) {
+        fclose(file_check);
+        cargar_palabras_desde_archivo(archivo, arbol);
+    }
 
     ppalabra nuevo;
-    crear_nodo_palabras(nuevo, arbol); // Crear un nuevo nodo con los datos de la palabra
+    crear_nodo_palabras(nuevo, arbol);
 
-    agregar_palabra(arbol, nuevo); // Insertar el nodo en el ABB
-    guardar_palabras_en_archivo(archivo, arbol); // Guardar el ABB en el archivo binario
+    agregar_palabra(arbol, nuevo);
+    guardar_palabras_en_archivo(archivo, arbol);
     std::cout << "Palabra registrada correctamente.\n";
 }
+
 
 // Función para listar palabras
 // void listar_palabras(tcad archivo, bool ascendente) {
