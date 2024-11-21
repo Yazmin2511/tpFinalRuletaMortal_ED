@@ -8,7 +8,7 @@ typedef struct tpalabra *ppalabra;
 typedef struct palabra{
     tcad palabra;  
     tcad definicion;
-    tsinonimo sinonimos;  // Sinonimos puede ser NULL
+    tsinonimo sinonimos;  
     int cant_sinonimo;
 };
 
@@ -70,9 +70,15 @@ void crear_nodo_palabras(ppalabra&p , ppalabra arbol)
         std::cout<<"Memoria llena"<<std::endl;
     else
     {   
-        //Validacion de que la palabra no esta repetida
-            std::cout<<"Ingrese palabra"<<std::endl;
-            std::cin>>p->pal.palabra;
+            do{
+                std::cout<<"Ingrese palabra"<<std::endl;
+                std::cin>>p->pal.palabra;
+
+                palabra_repetida = busqueda_palabra(arbol,p->pal.palabra);
+                if(palabra_repetida == true)
+                    std::cout<<"Esta palabra ya esta registrada"<<std::endl;
+            }while(palabra_repetida == true)
+            
 
             std::cout<<"Ingrese definicion"<<std::endl;
             std::cin>>p->pal.definicion;
@@ -87,8 +93,9 @@ void crear_nodo_palabras(ppalabra&p , ppalabra arbol)
                 std::cin>>p->pal.sinonimos[p->pal.cant_sinonimo];
                 p->pal.cant_sinonimo++;
 
-                
-            }  // Se quieran ingresar + sinonimos
+                std::cout<<"Desea ingresar otro sinonimo?"<< std::endl;
+                std::cin>>resp;
+            }
         
 
         p->izq = NULL;
@@ -101,11 +108,29 @@ ppalabra eliminar_palabra(ppalabra arbol)
     return NULL;
 }
 
-void listar_palabrass(ppalabra arbol)
+void listar_palabras(ppalabra arbol)
 {
-
+    if(arbol != NULL)
+    {
+            listar_palabras(arbol->izq);
+            std::cout<<arbol->pal.palabra<<" "<<std::endl;
+            listar_palabras(arbol->der);
+    }
 }
 
 void agregar_palabra(ppalabra&arbol,ppalabra nuevo)
 {
+     if (arbol == NULL)
+    {
+        arbol = nuevo; 
+    }
+    else if (strcmp(nuevo->pal.palabra, arbol->pal.palabra) < 0) 
+    {
+        agregar_palabra(arbol->izq, nuevo); 
+    }
+    else if (strcmp(nuevo->pal.palabra, arbol->pal.palabra) > 0) 
+    {
+        agregar_palabra(arbol->der, nuevo); 
+    }
+}
 }
