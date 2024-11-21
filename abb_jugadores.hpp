@@ -229,50 +229,6 @@ pnodo eliminar_nodo(pnodo& arbol, tcad nickname, pnodo& padre) {
     }
 }
 
-// pnodo eliminar(pnodo &a,pnodo valor)
-// {
-//     pnodo aux; 
-// if (a==NULL) 
-//     aux=NULL; 
-// else{
-//     if (a->dato > valor)
-//         aux=eliminar(a->izq,valor); 
-//     else
-//     {
-//         if (a->dato < valor)
-//             aux=eliminar(a->der,valor); 
-//         else
-//         {
-//             aux=a;
-//             if(a->izq == NULL)
-//                 a=a->der;
-//             else
-//             {
-//                 if(a->der==NULL)
-//                     a=a->izq;
-//                 else
-//                     aux=menor_mayores(a,a->der);
-//             }
-//         }
-//     }
-        
-// }
-// return aux;
-// }
-
-// pnodo menor_mayores(pnodo elegido,pnodo &menor) 
-// { pnodo aux;
-//     if (menor->izq!=NULL)
-//         aux=menor_mayores(elegido,menor->izq);
-//     else
-//     { cambio(elegido->dato,menor->dato);
-//         aux=menor; 
-//         menor=menor->der;
-//     }
-//     return aux;
-// }
-
-
 int cantidad_jugadores(pnodo arbol)
 {
     int cant;
@@ -284,4 +240,22 @@ int cantidad_jugadores(pnodo arbol)
     }
 
     return cant;
+}
+
+void generar_cuadro_de_honor(pnodo arbol,pnodo&aux)
+{
+     if(arbol != NULL )
+    {   
+        if(arbol->jugador.puntaje_total==0)
+            insertar(aux,arbol);
+        
+        generar_cuadro_de_honor(arbol->izq,aux);
+        generar_cuadro_de_honor(arbol->der,aux);
+    }
+}
+
+void mostrar_cuadro_honor(pnodo arbol,bool asc)
+{pnodo aux=NULL;
+    generar_cuadro_de_honor(arbol,aux);
+    mostrar_orden(aux,asc);
 }
