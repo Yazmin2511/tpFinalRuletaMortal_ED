@@ -75,14 +75,14 @@ void crear_nodo_palabras(ppalabra &p, ppalabra arbol) {
 
         p->pal.cant_sinonimo = 0;
         do {
-            std::cout << "¿Desea ingresar un sinonimo? (si/no)" << std::endl;
+            std::cout << "Desea ingresar un sinonimo? (si/no)" << std::endl;
             std::cin >> resp;
             if (strcmp(resp, "si") == 0 && p->pal.cant_sinonimo < 3) {
                 std::cout << "Ingrese sinonimo" << std::endl;
                 std::cin >> p->pal.sinonimos[p->pal.cant_sinonimo];
                 p->pal.cant_sinonimo++;
             }
-        } while ((strcmp(resp, "si") == 0 || (strcmp(resp, "s") == 0)) && p->pal.cant_sinonimo < 3);
+        } while (strcmp(resp, "si") == 0  && p->pal.cant_sinonimo < 3);
 
         p->izq = NULL;
         p->der = NULL;
