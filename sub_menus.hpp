@@ -150,7 +150,8 @@ void menu_principal_ruleta_palabras()
          
          
         case 3:
-            
+            mostrar(lis);
+            system("pause");
             break;
       
         case 4:
