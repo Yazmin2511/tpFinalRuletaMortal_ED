@@ -141,12 +141,18 @@ void menu_principal_ruleta_palabras()
         {
         case 1:
             registrar_palabra(archivo_palabras,palabras);
+            system("pause");
             break;
         case 2:
             { int cantidad; 
                 cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
                 cin >> cantidad; 
-                generar_ruleta(archivo_palabras, lis, cantidad); 
+                if(cantidad<5){
+                    cout<<"Se debe Ingresar 5 o mas "<<endl;
+                }else{
+                     generar_ruleta(archivo_palabras, lis, cantidad); 
+                }
+               system("pause");
                 break; 
             }
          
