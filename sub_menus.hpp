@@ -1,9 +1,10 @@
 #include <iostream>
 //#include "abb_jugadores.hpp"
 #include "archivos_jugadores.hpp"
+#include "archivo_palabras.hpp"
 using namespace std;
 
-pnodo jugadores = NULL;
+
 
 void opciones() {
     
@@ -60,8 +61,9 @@ void menu_jugar(){
 }
 void menu_principal_gestion_jugador()
 {
+    pnodo jugadores = NULL;
     int opcion;
-    tcad archivo = "jugadores.txt";
+    tcad archivo = "jugadores.dat";
     
     do{
         system("cls");
@@ -84,7 +86,7 @@ void menu_principal_gestion_jugador()
             }
         
         break;
-        case 3:     //Modificar jugador
+        case 3:     
             {
                 tcad nickname;
                 std::cout << "Ingrese nickname a modificar: ";
@@ -124,15 +126,17 @@ void menu_principal_gestion_jugador()
 
 void menu_principal_ruleta_palabras()
 {
+    ppalabra palabras=NULL;
+    tcad archivo = "palabras.dat";
     int opcion ;
     do{
-         system("cls");
+        system("cls");
         menu_crear_ruletas_palabras();
         cin>>opcion;
         switch (opcion)
         {
         case 1:
-            
+            registrar_palabra(archivo,palabras);
             break;
         case 2:
            
