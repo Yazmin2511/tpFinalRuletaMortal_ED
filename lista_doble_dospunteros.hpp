@@ -121,39 +121,33 @@ void seleccionar_palabras_aleatorias(int indices[], int cantidad_palabras, int t
 
 
 // Función para cargar una ruleta de palabras desde el archivo binario
-// Función para cargar una ruleta de palabras desde el archivo binario
 void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
-    if (cantidad_palabras < 5) {
-        std::cout << "La cantidad mínima de palabras es 5." << std::endl;
-        return;
-    }
     FILE *file = fopen(archivo, "rb");
     if (file == NULL) {
         std::cout << "El archivo no existe o no pudo abrirse.\n";
         return;
     }
 
+    // Contar total de palabras en el archivo
+    int total_palabras = contar_palabras(file);
+    if (total_palabras < cantidad_palabras) {
+        std::cout << "No hay suficientes palabras en el archivo. Se encontraron " << total_palabras << " palabras.\n";
+        fclose(file);
+        return;
+    }
+
     // Seleccionar aleatoriamente las palabras sin repetición
     int indices[cantidad_palabras];
-    int total_palabras = 0; // Inicializa el contador de palabras
-    palabra_rul temp_palabra;
-    while (fread(&temp_palabra, sizeof(palabra_rul), 1, file)) {
-        total_palabras++; // Incrementa el contador en cada lectura
-    }
-    rewind(file); // Vuelve al inicio del archivo
     seleccionar_palabras_aleatorias(indices, cantidad_palabras, total_palabras); 
 
     // Leer y agregar las palabras seleccionadas a la lista doble
-    int contador = 0;
-    int seleccionada = 0;
-    while (fread(&temp_palabra, sizeof(palabra_rul), 1, file) && seleccionada < cantidad_palabras) {
-        if (contador == indices[seleccionada]) {
-            pruleta nuevo;
-            crear_ruleta_palabra(nuevo, temp_palabra.palabra);
-            agregar_final_ruleta_palabra(lis, nuevo);
-            seleccionada++;
-        }
-        contador++;
+    palabra_rul temp_palabra;
+    for (int i = 0; i < cantidad_palabras; i++) {
+        fseek(file, indices[i] * sizeof(palabra_rul), SEEK_SET); // Moverse a la posición correcta
+        fread(&temp_palabra, sizeof(palabra_rul), 1, file);
+        pruleta nuevo;
+        crear_ruleta_palabra(nuevo, temp_palabra.palabra);
+        agregar_final_ruleta_palabra(lis, nuevo);
     }
 
     fclose(file);
@@ -169,6 +163,7 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
         std::cout << "Error: No se agregaron exactamente " << cantidad_palabras << " palabras.\n";
     }
 }
+
 
 
 
