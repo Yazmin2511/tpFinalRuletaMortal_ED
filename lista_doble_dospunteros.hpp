@@ -117,6 +117,10 @@ void seleccionar_palabras_aleatorias(int indices[], int cantidad_palabras, int t
     }
 }
 
+
+
+
+// Función para cargar una ruleta de palabras desde el archivo binario
 // Función para cargar una ruleta de palabras desde el archivo binario
 void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
     if (cantidad_palabras < 5) {
@@ -129,23 +133,19 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
         return;
     }
 
-    // Contar el total de palabras en el archivo
-    int total_palabras = contar_palabras(file);
-
-    if (total_palabras < cantidad_palabras) {
-        std::cout << "No hay suficientes palabras en el archivo.\n";
-        fclose(file);
-        return;
-    }
-
     // Seleccionar aleatoriamente las palabras sin repetición
     int indices[cantidad_palabras];
-    seleccionar_palabras_aleatorias(indices, cantidad_palabras, total_palabras);
+    int total_palabras = 0; // Inicializa el contador de palabras
+    palabra_rul temp_palabra;
+    while (fread(&temp_palabra, sizeof(palabra_rul), 1, file)) {
+        total_palabras++; // Incrementa el contador en cada lectura
+    }
+    rewind(file); // Vuelve al inicio del archivo
+    seleccionar_palabras_aleatorias(indices, cantidad_palabras, total_palabras); 
 
     // Leer y agregar las palabras seleccionadas a la lista doble
     int contador = 0;
     int seleccionada = 0;
-    palabra_rul temp_palabra;
     while (fread(&temp_palabra, sizeof(palabra_rul), 1, file) && seleccionada < cantidad_palabras) {
         if (contador == indices[seleccionada]) {
             pruleta nuevo;
@@ -169,3 +169,64 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
         std::cout << "Error: No se agregaron exactamente " << cantidad_palabras << " palabras.\n";
     }
 }
+
+
+
+
+
+
+// Función para cargar una ruleta de palabras desde el archivo binario
+// void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
+//     if (cantidad_palabras < 5) {
+//         std::cout << "La cantidad mínima de palabras es 5." << std::endl;
+//         return;
+//     }
+//     FILE *file = fopen(archivo, "rb");
+//     if (file == NULL) {
+//         std::cout << "El archivo no existe o no pudo abrirse.\n";
+//         return;
+//     }
+
+//     // Contar el total de palabras en el archivo
+//     int total_palabras = contar_palabras(file);
+
+//     if (total_palabras < cantidad_palabras) {
+//         std::cout << "No hay suficientes palabras en el archivo.\n";
+//         fclose(file);
+//         return;
+//     }
+
+//     // Seleccionar aleatoriamente las palabras sin repetición
+//     int indices[cantidad_palabras];
+//     seleccionar_palabras_aleatorias(indices, cantidad_palabras, total_palabras);
+
+//     // Leer y agregar las palabras seleccionadas a la lista doble
+//     int contador = 0;
+//     int seleccionada = 0;
+//     palabra_rul temp_palabra;
+//     while (fread(&temp_palabra, sizeof(palabra_rul), 1, file) && seleccionada < cantidad_palabras) {
+//         if (contador == indices[seleccionada]) {
+//             pruleta nuevo;
+//             crear_ruleta_palabra(nuevo, temp_palabra.palabra);
+//             agregar_final_ruleta_palabra(lis, nuevo);
+//             seleccionada++;
+//         }
+//         contador++;
+//     }
+
+//     fclose(file);
+
+//     // Verificar que se han agregado exactamente la cantidad de palabras solicitadas
+//     pruleta temp = lis.inicio;
+//     int contador_lista = 0;
+//     while (temp != NULL) {
+//         contador_lista++;
+//         temp = temp->sig;
+//     }
+//     if (contador_lista != cantidad_palabras) {
+//         std::cout << "Error: No se agregaron exactamente " << cantidad_palabras << " palabras.\n";
+//     }
+// }
+
+
+
