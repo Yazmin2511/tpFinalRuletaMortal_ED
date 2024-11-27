@@ -128,3 +128,17 @@ void eliminar_jugador(tcad archivo, tcad nickname) {
 
     guardar_jugadores_en_archivo(archivo, arbol); // Guardar el ABB actualizado en el archivo
 }
+//  función para contar la cantidad de jugadores en el archivo 
+int contar_jugadores_desde_archivo(tcad archivo) { 
+    FILE *file = fopen(archivo, "rb"); 
+    if (file == NULL) { 
+        std::cout << "El archivo no existe o no pudo abrirse.\n"; 
+        return 0;
+    } 
+    player temp_jugador; int total_jugadores = 0;
+    while (fread(&temp_jugador, sizeof(player), 1, file)) { 
+        total_jugadores++; 
+    } 
+    fclose(file); 
+    return total_jugadores;
+}
