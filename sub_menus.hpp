@@ -56,8 +56,9 @@ void menu_jugar(){
     cout << "                 JUGAR               " << endl;
     cout << "=====================================" << endl;
 
-    cout << "1. Seleccionar Jugadores" << endl;
-    cout << "2. Iniciar Juego" << endl;
+    cout << "1. Registrar palabras" << endl;
+    cout << "2. GENERAR RULETA" << endl;
+    cout << "3. Mostrar ruleta" << endl;
     cout << "4. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
