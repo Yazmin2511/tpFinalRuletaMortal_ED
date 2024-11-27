@@ -218,7 +218,8 @@ void menu_principal_jugar()
 }
 void menu()
 {
-    int opcion ;    
+    int opcion ;  
+    tcad archivo = "jugadores.dat";  
     do{
         system("cls");
         opciones();
@@ -233,11 +234,11 @@ void menu()
             menu_principal_ruleta_palabras();
             break;
         case 3: //Jugar
-            if(jugadores == NULL)
+            if(contar_jugadores_desde_archivo(archivo)==0)
                 std::cout<<"No hay jugadores registrados"<<std::endl;
             else
             {
-                if(cantidad_jugadores(jugadores) < 2)
+                if(contar_jugadores_desde_archivo(archivo) < 2)
                     std::cout<<"Necesita al menos 2 jugadores para iniciar el juego"<<std::endl;
                 else
                 {   
