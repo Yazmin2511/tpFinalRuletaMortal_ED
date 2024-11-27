@@ -4,6 +4,7 @@
 #include "archivo_palabras.hpp"
 #include "lista_doble_dospunteros.hpp"
 #include "t_cad.hpp"
+#include "animaciones.hpp"
 using namespace std;
 
 pjugador jugadores = NULL;
@@ -188,6 +189,7 @@ void menu_principal_jugar()
             break;
       
         case 4:
+            
             cout<<"BYE GUERREROS"<<endl;
             break;
         
@@ -200,7 +202,7 @@ void menu_principal_jugar()
 }
 void menu()
 {
-    int opcion ;
+    int opcion ;    
     do{
         system("cls");
         opciones();
@@ -238,6 +240,7 @@ void menu()
         }
             break;
         case 5:
+            muerte_jugador();
             cout<<"Bye valiente jugador"<<endl;
             break;
         
