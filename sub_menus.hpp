@@ -132,7 +132,7 @@ void menu_principal_ruleta_palabras()
    
     tcad archivo_palabras = "palabras.dat";
    // lista lis;//lista doble
-    int opcion ;
+    int opcion ,contador=0;
     do{
         system("cls");
         menu_crear_ruletas_palabras();
@@ -145,13 +145,24 @@ void menu_principal_ruleta_palabras()
             break;
         case 2:
             { int cantidad; 
+                
+                if(contador>0){
+                    while(lis.inicio!=NULL){
+                         extraer_final_ruleta_palabra(lis);
+                    }
+                    cout<<"vacio"<<endl;
+                    contador=0;
+                    
+                }
                 cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
                 cin >> cantidad; 
                 if(cantidad<5){
                     cout<<"Se debe Ingresar 5 o mas "<<endl;
-                }else{
-                     generar_ruleta(archivo_palabras, lis, cantidad); 
+               }else{
+                    generar_ruleta(archivo_palabras, lis, cantidad); 
                 }
+                contador++;
+                    
                system("pause");
                 break; 
             }
