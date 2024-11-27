@@ -69,6 +69,25 @@ void agregar_final_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
     }
 }
 
+pruleta extraer_final_ruleta_palabra(listaRuleta &lista){
+    pruleta extraer;
+    if(lista.fin==NULL){
+        extraer=NULL;
+    }else{
+        if(lista.inicio==lista.fin){
+            extraer=lista.inicio;
+            lista.fin=NULL;
+            lista.inicio=NULL;
+        }else{
+            extraer=lista.fin;
+            lista.fin=lista.fin->ant;
+            lista.fin->sig=NULL;
+            extraer->ant=NULL;
+        }
+    }
+    return extraer;
+}
+
 void mostrar_ruleta_palabra(listaRuleta lis)
 {
     pruleta i;
