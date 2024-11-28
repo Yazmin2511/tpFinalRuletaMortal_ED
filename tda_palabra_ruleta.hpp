@@ -43,7 +43,7 @@ void convertirPalabraAGuiones(tcad palabra, tcad&resultado)
 }
 
 
-void convertirPalabraAGuiones(tcad palabra,tcad&palabraGuiones)
+void cambiarPrimeraLetra(tcad palabra,tcad&palabraGuiones)
 { 
     palabraGuiones[0] = palabra[0];
 }

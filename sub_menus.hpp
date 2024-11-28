@@ -14,6 +14,20 @@ listaRuleta ruleta_palabras;
 cola_turnos turnos;
 //verifica que la ruleta haya sido creada 
 bool ruleta_creada=false;
+
+void crear_comprobarCadenaNoVacia(tcad& cadena , tcad mensaje) {
+    bool esValida = false;
+    while (!esValida) 
+    {
+        std::cout << mensaje;
+        std::cin.getline(cadena, 50);
+        if (strlen(cadena) == 0)
+            std::cout << "La cadena no puede estar vacía. Intente nuevamente." << std::endl;
+        else
+            esValida = true;
+    }
+}
+
 void opciones(){
     
     cout << "=====================================" << endl;
