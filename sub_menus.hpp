@@ -193,7 +193,7 @@ void menu_principal_ruleta_palabras()
 
 }
 //2
-void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGuiones) {
+void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGuiones) {
     int opcion,opcion2;
     tcad palabraArriesgada;
     bool sigueElJuego = true;
@@ -203,11 +203,21 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
         switch (opcion) {
         case 1:
             probarLetraPalabra(palabra.palabra, palabraGuiones);
+            if(strcmp(palabra.palabra,palabraArriesgada) == 0)
+                {
+                    turno->cantidad_vidas+=3;
+                    cout << "========================" << endl; 
+                    cout << "<3 ¡¡¡FELICIDADES!!! <3 " << endl; 
+                    cout << "Has acertado la palabra." << endl; 
+                    cout << "========================" << endl;
+                    sigueElJuego = false;   
+                    push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
+                }
             turno->cantidad_vidas -= 1;
             break;
         case 2:
             turno->cantidad_vidas -= 1;
-            probarLetraPalabra(palabra.palabra,palabraGuiones);
+            cambiarPrimeraLetra(palabra.palabra,palabraGuiones);
             break;
         case 3:     // Pistas sinonimos o definicion
         {
@@ -250,8 +260,8 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
                     cout << "<3 ¡¡¡FELICIDADES!!! <3 " << endl; 
                     cout << "Has acertado la palabra." << endl; 
                     cout << "========================" << endl;
-                    sigueElJuego = false;
-                    // Agregar la palabra a la pila del jugador . 
+                    sigueElJuego = false;   
+                    push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
                 }
                 else
                 {
@@ -342,11 +352,11 @@ void menu_principal_gestion_jugar() {
                             convertirPalabraAGuiones(palabraEnJuego->dato.palabra, palabraGuiones);
                             do {
                                 turno = cola_quitar_turno(turnos);
-                                cout<<turno->nickname;
                                 menu_juego_encurso(palabraEnJuego->dato,palabraGuiones, turno);
+                                menu_gestion_opciones_juego(turno, palabraEnJuego->dato, palabraGuiones);
                                 if (turno->cantidad_vidas > 0) {
                                     cola_agregar_turno(turnos, turno);
-                                    menu_gestion_opciones_juego(turno, palabraEnJuego->dato, palabraGuiones);
+                                        cout<<"Moriste"<<endl;
                                 }
                             } while (turnos.cantidad >= 2);
                         }

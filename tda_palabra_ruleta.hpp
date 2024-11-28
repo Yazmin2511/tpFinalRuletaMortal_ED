@@ -3,6 +3,7 @@
 #include <ctime> // Para time
 #include <cstring> // Para strcpy y strcmp
 #include <cstdio> // Para fopen, fread y fclose
+#include <cctype>
 
 #include "t_cad.hpp"
 
@@ -48,15 +49,26 @@ void cambiarPrimeraLetra(tcad palabra,tcad&palabraGuiones)
     palabraGuiones[0] = palabra[0];
 }
 
-void probarLetraPalabra(tcad palabra,tcad&palabraGuiones)
-{ char letra;
-    std::cout<< "Ingrese letra: "<<std::endl;
-    std::cin>>letra;
-    for(int i=0; i<strlen(palabra);i++)
-    {   if(palabra[i] == letra)
-            palabraGuiones[i] = letra;
+
+void probarLetraPalabra(tcad palabra, tcad& palabraGuiones) {
+    char letra;
+    bool letraEncontrada = false;
+    std::cout << "Ingrese una letra: ";
+    std::cin >> letra;
+    letra = tolower(letra); 
+
+    for (int i = 0; i < strlen(palabra); i++) {
+        if (tolower(palabra[i]) == letra) { 
+            palabraGuiones[i] = palabra[i];
+            letraEncontrada = true;
+        }
+    }
+    
+    if (!letraEncontrada) {
+        std::cout << "La letra '" << letra << "' no está en la palabra." << std::endl;
     }
 }
+
 
 void inicializar_ruleta_palabras(listaRuleta &lis)
 {
