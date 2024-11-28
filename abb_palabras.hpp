@@ -7,8 +7,7 @@ typedef struct tpalabra *ppalabra;
 typedef struct palabra {
     tcad palabra;
     tcad definicion;
-    tsinonimo sinonimos;
-    int cant_sinonimo;
+    tcad sinonimos;
 };
 
 typedef struct tpalabra {
@@ -21,83 +20,85 @@ void inicializar_arbol_palabras(ppalabra &p) {
     p = NULL;
 }
 
-bool busqueda_palabra(ppalabra p, tcad nueva_palabra) {
-    if (p == NULL) {
+bool busqueda_palabra(ppalabra p, tcad nueva_palabra)
+{
+    if (p == NULL)
         return false;
-    } else {
+    else {
         if (strcmp(p->pal.palabra, nueva_palabra) == 0) {
             return true;
         } else {
-            if (p->pal.palabra[0] > nueva_palabra[0]) {
+            if (p->pal.palabra[0] > nueva_palabra[0])
                 return busqueda_palabra(p->izq, nueva_palabra);
-            } else {
+            else
                 return busqueda_palabra(p->der, nueva_palabra);
-            }
         }
     }
 }
 
-ppalabra busqueda_palabra_datos(ppalabra p, tcad nueva_palabra) {
-    if (p == NULL) {
+ppalabra busqueda_palabra_datos(ppalabra p, tcad nueva_palabra)
+{
+    if (p == NULL)
         return NULL;
-    } else {
-        if (strcmp(p->pal.palabra, nueva_palabra) == 0) {
+    else 
+    {
+        if (strcmp(p->pal.palabra, nueva_palabra) == 0)
             return p;
-        } else {
-            if (p->pal.palabra[0] > nueva_palabra[0]) {
+        else
+        {
+            if (p->pal.palabra[0] > nueva_palabra[0])
                 return busqueda_palabra_datos(p->izq, nueva_palabra);
-            } else {
+            else
                 return busqueda_palabra_datos(p->der, nueva_palabra);
-            }
         }
     }
 }
 
-void crear_nodo_palabras(ppalabra &p, ppalabra arbol) {
+void crear_nodo_palabras(ppalabra &p, ppalabra arbol) 
+{
     bool palabra_repetida = true;
     tcad resp;
     p = new tpalabra;
-    if (p == NULL) {
+    if (p == NULL)
         std::cout << "Memoria llena" << std::endl;
-    } else {
-        do {
+    else 
+    {
+        do 
+        {
             std::cout << "Ingrese palabra" << std::endl;
             std::cin >> p->pal.palabra;
 
             palabra_repetida = busqueda_palabra(arbol, p->pal.palabra);
-            if (palabra_repetida) {
+            if (palabra_repetida)
                 std::cout << "Esta palabra ya esta registrada" << std::endl;
-            }
         } while (palabra_repetida);
 
         std::cout << "Ingrese definicion" << std::endl;
         std::cin >> p->pal.definicion;
-
-        p->pal.cant_sinonimo = 0;
-        do {
-            std::cout << "Desea ingresar un sinonimo? (si/no)" << std::endl;
-            std::cin >> resp;
-            if (strcmp(resp, "si") == 0 && p->pal.cant_sinonimo < 3) {
+        std::cout << "Desea ingresar un sinonimo? (si/no)" << std::endl;
+        std::cin >> resp;
+        if (strcmp(resp, "si") == 0)
+        {
                 std::cout << "Ingrese sinonimo" << std::endl;
-                std::cin >> p->pal.sinonimos[p->pal.cant_sinonimo];
-                p->pal.cant_sinonimo++;
-            }
-        } while (strcmp(resp, "si") == 0  && p->pal.cant_sinonimo < 3);
-
+                std::cin >> p->pal.sinonimos;
+        }
         p->izq = NULL;
         p->der = NULL;
     }
 }
 
-void listar_palabras(ppalabra arbol) {
-    if (arbol != NULL) {
+void listar_palabras(ppalabra arbol)
+{
+    if (arbol != NULL) 
+    {
         listar_palabras(arbol->izq);
         std::cout << arbol->pal.palabra << " " << std::endl;
         listar_palabras(arbol->der);
     }
 }
 
-void agregar_palabra(ppalabra &arbol, ppalabra nuevo) {
+void agregar_palabra(ppalabra&arbol, ppalabra nuevo)
+{
     if (arbol == NULL) {
         arbol = nuevo;
     } else if (strcmp(nuevo->pal.palabra, arbol->pal.palabra) < 0) {

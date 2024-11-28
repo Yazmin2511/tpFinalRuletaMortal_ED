@@ -28,10 +28,8 @@ void cargar_palabras_desde_archivo(tcad archivo, ppalabra &arbol) {
         }
         strcpy(nuevo->pal.palabra, temp_palabra.palabra);
         strcpy(nuevo->pal.definicion, temp_palabra.definicion);
-        for (int i = 0; i < temp_palabra.cant_sinonimo; ++i) {
-            strcpy(nuevo->pal.sinonimos[i], temp_palabra.sinonimos[i]);
-        }
-        nuevo->pal.cant_sinonimo = temp_palabra.cant_sinonimo;
+        strcpy(nuevo->pal.sinonimos, temp_palabra.sinonimos);
+        
         nuevo->izq = NULL;
         nuevo->der = NULL;
         agregar_palabra(arbol, nuevo);
@@ -65,19 +63,4 @@ void registrar_palabra(tcad archivo, ppalabra &arbol) {
     guardar_palabras_en_archivo(archivo, arbol);
     std::cout << "Palabra registrada correctamente.\n";
 }
-
-
-// Función para listar palabras
-// void listar_palabras(tcad archivo, bool ascendente) {
-//     ppalabra arbol = NULL;
-//     cargar_palabras_desde_archivo(archivo, arbol);
-
-//     if (arbol == NULL) {
-//         std::cout << "No hay palabras registradas.\n";
-//         return;
-//     }
-
-//     std::cout << "Listado de palabras:\n";
-//     listar_palabrass(arbol); // Llama a tu función para mostrar las palabras en orden ascendente o descendente
-// }
 
