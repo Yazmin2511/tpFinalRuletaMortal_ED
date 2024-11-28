@@ -188,6 +188,7 @@ void menu_principal_ruleta_palabras()
 }
 void menu_principal_jugar()
 {
+     tcad archivo1 = "jugadores.dat";
     int opcion ;
     do{
          system("cls");
@@ -196,7 +197,14 @@ void menu_principal_jugar()
         switch (opcion)
         {
         case 1:
-            
+            {
+                  tcad nicname,nombre,apellido;
+                  cin>>nicname;
+
+                obtener_nombre_apellido(archivo1,nicname,nombre,apellido);
+                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<endl;
+                system("pause");
+            }
             break;
         case 2:
            
@@ -219,6 +227,7 @@ void menu_principal_jugar()
 }
 void menu()
 {
+    tcad archivo = "jugadores.dat"; 
     int opcion ;    
     do{
         system("cls");
@@ -234,11 +243,11 @@ void menu()
             menu_principal_ruleta_palabras();
             break;
         case 3: //Jugar
-            if(jugadores == NULL)
+            if(contar_jugadores_desde_archivo(archivo)==0)
                 std::cout<<"No hay jugadores registrados"<<std::endl;
             else
             {
-                if(cantidad_jugadores(jugadores) < 2)
+                if(contar_jugadores_desde_archivo(archivo) < 2)
                     std::cout<<"Necesita al menos 2 jugadores para iniciar el juego"<<std::endl;
                 else
                 {   
