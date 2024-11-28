@@ -3,17 +3,17 @@
 #include <ctime> // Para time
 #include <cstring> // Para strcpy y strcmp
 #include <cstdio> // Para fopen, fread y fclose
+#include <cctype>
 
 #include "t_cad.hpp"
 
-typedef tcad tsinonimo_ruleta[3]; 
 typedef struct tpalabra_ruleta *ppalabra_ruleta;
 typedef struct palabra_rul{
     tcad palabra;
     tcad definicion;
-    tsinonimo_ruleta sinonimos; // Sinonimos puede ser NULL 
-    int cant_sinonimo;
+    tcad sinonimos; 
 }; 
+
 typedef struct tpalabra_ruleta{ 
     palabra_rul pal; 
     ppalabra_ruleta izq; 
@@ -23,7 +23,7 @@ typedef struct tpalabra_ruleta{
 // TDA DE listaRuletaS DOBLES
 typedef struct truleta *pruleta;
 struct truleta {
-    tcad dato;
+    palabra_rul dato;
     pruleta ant; 
     pruleta sig; 
 };
@@ -33,18 +33,57 @@ struct listaRuleta {
     pruleta fin;
 };
 
+
+void convertirPalabraAGuiones(tcad palabra, tcad&resultado)
+{ 
+    int longitud = strlen(palabra); 
+    for (int i = 0; i < longitud; i++) {
+         resultado[i] = '_'; 
+    } 
+    resultado[longitud] = '\0';
+}
+
+
+void cambiarPrimeraLetra(tcad palabra,tcad&palabraGuiones)
+{ 
+    palabraGuiones[0] = palabra[0];
+}
+
+
+void probarLetraPalabra(tcad palabra, tcad& palabraGuiones) {
+    char letra;
+    bool letraEncontrada = false;
+    std::cout << "Ingrese una letra: ";
+    std::cin >> letra;
+    letra = tolower(letra); 
+
+    for (int i = 0; i < strlen(palabra); i++) {
+        if (tolower(palabra[i]) == letra) { 
+            palabraGuiones[i] = palabra[i];
+            letraEncontrada = true;
+        }
+    }
+    
+    if (!letraEncontrada) {
+        std::cout << "La letra '" << letra << "' no está en la palabra." << std::endl;
+    }
+}
+
+
 void inicializar_ruleta_palabras(listaRuleta &lis)
 {
     lis.inicio = NULL;
     lis.fin = NULL;
 }
 
-void crear_ruleta_palabra(pruleta &nuevo, tcad valor)
+void crear_ruleta_palabra(pruleta &nuevo, tcad palabra, tcad definicion,tcad sinonimos)
 {
     nuevo = new truleta;
     if (nuevo != NULL)
     {
-        strcpy(nuevo->dato, valor);
+        strcpy(nuevo->dato.palabra, palabra);
+        strcpy(nuevo->dato.definicion, definicion);
+        strcpy(nuevo->dato.sinonimos, sinonimos);
         nuevo->sig = NULL;
         nuevo->ant = NULL;
     }
@@ -94,7 +133,7 @@ void mostrar_ruleta_palabra(listaRuleta lis)
     if (lis.inicio != NULL)
     {
         for (i = lis.inicio; i != NULL; i = i->sig)
-            std::cout << i->dato << ", ";
+            std::cout << i->dato.palabra << ", ";
         std::cout << std::endl;
     }
     else
@@ -111,7 +150,6 @@ int contar_palabras(FILE *file) {
     rewind(file); // Volver al inicio del archivo
     return total_palabras;
 }
-
 
 // Función para verificar si un índice ya fue seleccionado
 bool indice_seleccionado(int indices[], int cantidad_seleccionada, int indice_actual) {
@@ -165,7 +203,7 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
         fseek(file, indices[i] * sizeof(palabra_rul), SEEK_SET); // Moverse a la posición correcta
         fread(&temp_palabra, sizeof(palabra_rul), 1, file);
         pruleta nuevo;
-        crear_ruleta_palabra(nuevo, temp_palabra.palabra);
+        crear_ruleta_palabra(nuevo, temp_palabra.palabra,temp_palabra.definicion,temp_palabra.sinonimos);
         agregar_final_ruleta_palabra(lis, nuevo);
     }
 
@@ -184,63 +222,6 @@ void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
 }
 
 
-
-
-
-
-
-// Función para cargar una ruleta de palabras desde el archivo binario
-// void generar_ruleta(tcad archivo, listaRuleta &lis, int cantidad_palabras) {
-//     if (cantidad_palabras < 5) {
-//         std::cout << "La cantidad mínima de palabras es 5." << std::endl;
-//         return;
-//     }
-//     FILE *file = fopen(archivo, "rb");
-//     if (file == NULL) {
-//         std::cout << "El archivo no existe o no pudo abrirse.\n";
-//         return;
-//     }
-
-//     // Contar el total de palabras en el archivo
-//     int total_palabras = contar_palabras(file);
-
-//     if (total_palabras < cantidad_palabras) {
-//         std::cout << "No hay suficientes palabras en el archivo.\n";
-//         fclose(file);
-//         return;
-//     }
-
-//     // Seleccionar aleatoriamente las palabras sin repetición
-//     int indices[cantidad_palabras];
-//     seleccionar_palabras_aleatorias(indices, cantidad_palabras, total_palabras);
-
-//     // Leer y agregar las palabras seleccionadas a la lista doble
-//     int contador = 0;
-//     int seleccionada = 0;
-//     palabra_rul temp_palabra;
-//     while (fread(&temp_palabra, sizeof(palabra_rul), 1, file) && seleccionada < cantidad_palabras) {
-//         if (contador == indices[seleccionada]) {
-//             pruleta nuevo;
-//             crear_ruleta_palabra(nuevo, temp_palabra.palabra);
-//             agregar_final_ruleta_palabra(lis, nuevo);
-//             seleccionada++;
-//         }
-//         contador++;
-//     }
-
-//     fclose(file);
-
-//     // Verificar que se han agregado exactamente la cantidad de palabras solicitadas
-//     pruleta temp = lis.inicio;
-//     int contador_lista = 0;
-//     while (temp != NULL) {
-//         contador_lista++;
-//         temp = temp->sig;
-//     }
-//     if (contador_lista != cantidad_palabras) {
-//         std::cout << "Error: No se agregaron exactamente " << cantidad_palabras << " palabras.\n";
-//     }
-// }
 
 
 
