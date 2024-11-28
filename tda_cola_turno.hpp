@@ -27,7 +27,7 @@ bool cola_turnos_vacia(cola_turnos b){
 void cola_agregar_turno(cola_turnos &b,pturno nuevo){
     if(b.frente == NULL)
         b.frente = nuevo;
-    else
+  //  else
         
 }
 
