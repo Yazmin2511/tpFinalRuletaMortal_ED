@@ -12,6 +12,9 @@ pjugador jugadores = NULL;
 ppalabra palabras=NULL;
 listaRuleta lis;
 cola_turnos turnos;
+
+//verifica que la ruleta haya sido creada 
+bool ruleta_creada=false;
 void opciones() {
     
     cout << "=====================================" << endl;
@@ -146,30 +149,29 @@ void menu_principal_ruleta_palabras()
             system("pause");
             break;
         case 2:
-            { int cantidad; 
-                
+            { int cantidad;      
                 if(contador>0){
                     while(lis.inicio!=NULL){
-                         extraer_final_ruleta_palabra(lis);
+                        extraer_final_ruleta_palabra(lis);
                     }
+                    //con esto la opcion 2 de jugar queda inabilitada 
+                    ruleta_creada=false;
                     cout<<"vacio"<<endl;
                     contador=0;
-                    
                 }
                 cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
                 cin >> cantidad; 
                 if(cantidad<5){
                     cout<<"Se debe Ingresar 5 o mas "<<endl;
-               }else{
-                    generar_ruleta(archivo_palabras, lis, cantidad); 
+                }else{
+                    generar_ruleta(archivo_palabras, lis, cantidad);
+                    contador++;
+                    //se utiliza para verificar que la ruletra es creada previamente
+                     ruleta_creada=true; 
                 }
-                contador++;
-                    
                system("pause");
                 break; 
             }
-         
-         
         case 3:
           //  
             mostrar_ruleta_palabra(lis);
@@ -217,13 +219,20 @@ void menu_principal_jugar()
             }
             break;
         case 2:
-           
+            {
+                if(ruleta_creada==true){
+                    // codigo Aqui
+                }else{
+                    cout<<endl;
+                    cout<<"**********************Estimado Genere Ruleta Antes*********************"<<endl;
+                    cout<<endl;
+                }
+            }
+            system("pause");
             break;
-        case 3:
-            
-            break;
+
       
-        case 4:
+        case 3:
             
             cout<<"BYE GUERREROS"<<endl;
             break;
@@ -232,7 +241,7 @@ void menu_principal_jugar()
             break;
         }
 
-    }while(opcion!=4);
+    }while(opcion!=3);
 
 }
 void menu()
