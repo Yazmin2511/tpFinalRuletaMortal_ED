@@ -270,3 +270,21 @@ void mostrar_cuadro_honor(pjugador arbol,bool asc)
     }
        
 }
+
+void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
+    FILE *file = fopen(archivo, "rb"); 
+    if (file == NULL) { 
+        std::cout << "El archivo no existe o no pudo abrirse.\n"; return; 
+        } 
+        player temp_jugador; 
+        while (fread(&temp_jugador, sizeof(player), 1, file)) { 
+            if (strcmp(temp_jugador.nickname, nickname) == 0) { 
+                strcpy(nombre, temp_jugador.nombre); 
+                strcpy(apellido, temp_jugador.apellido); 
+                fclose(file); 
+               return; 
+            } 
+         } 
+         fclose(file); 
+        std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n"; 
+}

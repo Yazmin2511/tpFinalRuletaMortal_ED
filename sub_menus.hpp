@@ -56,10 +56,9 @@ void menu_jugar(){
     cout << "                 JUGAR               " << endl;
     cout << "=====================================" << endl;
 
-    cout << "1. Registrar palabras" << endl;
-    cout << "2. GENERAR RULETA" << endl;
-    cout << "3. Mostrar ruleta" << endl;
-    cout << "4. Volver al menu anterior" << endl;
+    cout << "1. Seleccionar jugadores" << endl;
+    cout << "2. Iniciar juego" << endl;
+    cout << "3. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
@@ -77,8 +76,8 @@ void menu_principal_gestion_jugador()
         switch (opcion)
         {
         case 1:     
-        agregar_jugador(archivo, jugadores);
-         break;
+            agregar_jugador(archivo, jugadores);
+            break;
         case 2:     
             {
             tcad buscado;
@@ -188,15 +187,27 @@ void menu_principal_ruleta_palabras()
 }
 void menu_principal_jugar()
 {
+     tcad archivo1 = "jugadores.dat";
+     tcad nicname,nombre,apellido;
     int opcion ;
     do{
-         system("cls");
+        system("cls");
         menu_jugar();
         cin>>opcion;
         switch (opcion)
         {
         case 1:
-            
+            {     cout<<"********** Jugadores disponibles **********"<<endl;
+                  mostrar_orden(jugadores,true);
+                  cout<<"Ingrese nickname de jugador a elegir"<<endl;
+                  cin>>nicname;
+
+                obtener_nombre_apellido(archivo1,nicname,nombre,apellido);
+                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<endl;
+                system("pause");
+
+                /// Agregar meter a la pila 
+            }
             break;
         case 2:
            
