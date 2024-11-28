@@ -188,6 +188,7 @@ void menu_principal_ruleta_palabras()
 }
 void menu_principal_jugar()
 {
+     tcad archivo1 = "jugadores.dat";
     int opcion ;
     do{
          system("cls");
@@ -196,7 +197,14 @@ void menu_principal_jugar()
         switch (opcion)
         {
         case 1:
-            
+            {
+                  tcad nicname,nombre,apellido;
+                  cin>>nicname;
+
+                obtener_nombre_apellido(archivo1,nicname,nombre,apellido);
+                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<endl;
+                system("pause");
+            }
             break;
         case 2:
            
