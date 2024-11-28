@@ -257,7 +257,7 @@ void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
 void mostrar_cuadro_honor(pjugador arbol,bool asc)
 {pjugador aux=NULL;
     generar_cuadro_de_honor(arbol,aux);
-    if(aux =NULL)
+    if(aux == NULL)
         std::cout<<"No hay jugadores con puntajes mayores a 0"<<std::endl;
     else
     {

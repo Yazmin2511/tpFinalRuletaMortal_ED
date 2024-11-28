@@ -5,11 +5,13 @@
 #include "lista_doble_dospunteros.hpp"
 #include "t_cad.hpp"
 #include "animaciones.hpp"
+#include "tda_cola_turno.hpp"
 using namespace std;
 
 pjugador jugadores = NULL;
 ppalabra palabras=NULL;
 listaRuleta lis;
+cola_turnos turnos;
 void opciones() {
     
     cout << "=====================================" << endl;
@@ -186,9 +188,11 @@ void menu_principal_ruleta_palabras()
 
 }
 void menu_principal_jugar()
-{
-     tcad archivo1 = "jugadores.dat";
-     tcad nicname,nombre,apellido;
+{ 
+    tcad archivo1 = "jugadores.dat";
+    tcad nickname,nombre,apellido;
+    inicializar_turnos(turnos);
+    pturno turno;
     int opcion ;
     do{
         system("cls");
@@ -197,13 +201,16 @@ void menu_principal_jugar()
         switch (opcion)
         {
         case 1:
-            {     cout<<"********** Jugadores disponibles **********"<<endl;
-                  mostrar_orden(jugadores,true);
-                  cout<<"Ingrese nickname de jugador a elegir"<<endl;
-                  cin>>nicname;
+            {    cout<<"********** Jugadores disponibles **********"<<endl;
+                mostrar_orden(jugadores,true);
+                cout<<"Ingrese nickname de jugador a elegir"<<endl;
+                cin>>nickname;
 
-                obtener_nombre_apellido(archivo1,nicname,nombre,apellido);
-                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<endl;
+                obtener_nombre_apellido(archivo1,nickname,nombre,apellido);
+                cout<<"Nombre: "<<nombre<<" , Apellido: "<<apellido<<endl;
+                //strcpy(turno->nickname,nickname);
+
+                cola_agregar_turno(turnos,turno);
                 system("pause");
 
                 /// Agregar meter a la pila 
