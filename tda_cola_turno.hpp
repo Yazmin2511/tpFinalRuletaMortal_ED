@@ -84,3 +84,45 @@ pturno cola_quitar_turno(cola_turnos &b){
     return extraido;
 }
 
+int calcular_puntaje_individual(pila_palabrasAcertadas p , bool todasPalabrasJugadas)
+{   int cantidad_palabras_adivinadas=p.cima+1;     // Ver se es valido
+    int puntajeTotal, cantidad_char_palabra_Mas_Larga = 0;
+    
+    while(!pila_vacia_palabras(p))
+    {
+        if(tope_pila_palabras(p) > cantidad_char_palabra_Mas_Larga )
+            cantidad_char_palabra_Mas_Larga = tope_pila_palabras(p);
+        quitar_pila_palabras(p);
+    }
+    puntajeTotal= cantidad_palabras_adivinadas * cantidad_char_palabra_Mas_Larga;
+    
+    if(todasPalabrasJugadas)
+        puntajeTotal= puntajeTotal*3;
+
+    return puntajeTotal;
+}
+
+
+pturno jugador_con_mas_palabras_o_puntaje(cola_turnos jugadores)   // Verificar
+{pturno i,aux;
+    int puntajeTotalUno,puntajeTotalDos;
+    i=cola_quitar_turno(jugadores);
+    while (!cola_turnos_vacia(jugadores))
+    {  aux=cola_quitar_turno(jugadores);
+       if(i->palabras_acertadas.cima < aux->palabras_acertadas.cima )
+        i=aux;
+        else
+        {
+            if(i->palabras_acertadas.cima == aux->palabras_acertadas.cima)   // Si hay empate de palabras
+                puntajeTotalUno=calcular_puntaje_individual(i->palabras_acertadas,true);
+                puntajeTotalDos=calcular_puntaje_individual(aux->palabras_acertadas,true);
+                
+                if(puntajeTotalUno > puntajeTotalDos)
+                    return i;
+                else
+                    return aux;
+        }
+    }
+    return i;
+}
+

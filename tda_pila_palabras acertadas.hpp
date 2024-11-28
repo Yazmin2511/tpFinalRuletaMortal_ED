@@ -52,21 +52,3 @@ void quitar_pila_palabras(pila_palabrasAcertadas &p)
     }
 }
 
-int calcular_puntaje(pila_palabrasAcertadas p , bool todasPalabrasJugadas)
-{   int cantidad_palabras_adivinadas=p.cima+1;     // Ver se es valido
-    int puntajeTotal, cantidad_char_palabra_Mas_Larga = 0;
-    
-    while(!pila_vacia_palabras(p))
-    {
-        if(tope_pila_palabras(p) > cantidad_char_palabra_Mas_Larga )
-            cantidad_char_palabra_Mas_Larga = tope_pila_palabras(p);
-        quitar_pila_palabras(p);
-    }
-    puntajeTotal= cantidad_palabras_adivinadas * cantidad_char_palabra_Mas_Larga;
-    
-    if(todasPalabrasJugadas)
-        puntajeTotal= puntajeTotal*3;
-
-    return puntajeTotal;
-
-}
