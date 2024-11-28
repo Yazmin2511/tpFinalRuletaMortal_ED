@@ -69,18 +69,11 @@ void menu_crear_ruletas_palabras(){
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
 }
-void menu_jugar(){
-    cout << "=====================================" << endl;
-    cout << "                 JUGAR               " << endl;
-    cout << "=====================================" << endl;
 
-    cout << "1. Seleccionar jugadores" << endl;
-    cout << "2. Iniciar juego" << endl;
-    cout << "3. Volver al menu anterior" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
-}
 
+
+
+// 2
 void menu_juego_encurso(tcad palabraActual, pturno&turno)
 {
     cout << "=====================================" << endl;
@@ -220,7 +213,6 @@ void menu_principal_ruleta_palabras()
 
 }
 
-// switch
 void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGuiones) {
     int opcion,opcion2;
     tcad palabraArriesgada;
@@ -275,7 +267,7 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
                 {
                     turno->cantidad_vidas+=3;
                     cout << "========================" << endl; 
-                    cout << "¡¡¡FELICIDADES!!! 🎉🎉🎉" << endl; 
+                    cout << "<3 ¡¡¡FELICIDADES!!! <3 " << endl; 
                     cout << "Has acertado la palabra." << endl; 
                     cout << "========================" << endl;
                     sigueElJuego = false;
@@ -284,7 +276,7 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
                 else
                 {
                     cout << "========================" << endl; 
-                    cout << "💔 ¡FALLASTE! 💔" << endl; 
+                    cout << " </3 ¡FALLASTE! </3 " << endl; 
                     cout << "La palabra no es correcta." << endl; 
                     cout << "========================" << endl;
                 }
@@ -304,15 +296,12 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
 
 void menu_principal_gestion_jugar()
 { 
-    tcad archivo1 = "jugadores.dat";
-    tcad nickname,nombre,apellido;
+    tcad archivo1 = "jugadores.dat",nickname,nombre,apellido;
     inicializar_turnos(turnos);
     pturno turno;
     int opcion ;
     tcad palabraGuiones;
     do{
-        system("cls");
-        menu_jugar();
         cin>>opcion;
         switch (opcion)
         {
@@ -324,7 +313,7 @@ void menu_principal_gestion_jugar()
 
                 obtener_nombre_apellido(archivo1,nickname,nombre,apellido);
                 cout<<"Nombre: "<<nombre<<" , Apellido: "<<apellido<<endl;
-                crear_turno(turno,nickname);
+                //crear_turno(turno,nickname);
 
                 if(buscar_jugador_repetido(turnos,nickname) == true)    // Validacion para que no se repitan los jugadores en la cola
                     cout<<"Jugador ya seleccionado"<<endl;
@@ -372,18 +361,14 @@ void menu_principal_gestion_jugar()
 
                     }
                     else{
-                    cout<<endl;
                     cout<<"**********************Estimado seleccione al menos 2 jugadores*********************"<<endl;
-                    cout<<endl;
+
                 }
 
                 }else{
-                    cout<<endl;
                     cout<<"**********************Estimado debe generar la ruleta*********************"<<endl;
-                    cout<<endl;
                 }
             }
-            system("pause");
             break;
 
       
@@ -400,8 +385,19 @@ void menu_principal_gestion_jugar()
 
 }
 
+//1
+void menu_jugar(){
+    cout << "=====================================" << endl;
+    cout << "                 JUGAR               " << endl;
+    cout << "=====================================" << endl;
 
-
+    cout << "1. Seleccionar jugadores" << endl;
+    cout << "2. Iniciar juego" << endl;
+    cout << "3. Volver al menu anterior" << endl;
+    cout << "=====================================" << endl;
+    cout << "Elija una opcion: ";
+     menu_principal_gestion_jugar();
+}
 
 void menu()
 {
@@ -429,7 +425,9 @@ void menu()
                     std::cout<<"Necesita al menos 2 jugadores para iniciar el juego"<<std::endl;
                 else
                 {   
+                    system("cls");
                     menu_jugar();
+                   
                 }
             }
             system("pause");
