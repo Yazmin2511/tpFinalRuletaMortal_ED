@@ -70,26 +70,6 @@ void menu_crear_ruletas_palabras(){
     cout << "Elija una opcion: ";
 }
 
-
-
-
-// 2
-void menu_juego_encurso(tcad palabraActual, pturno&turno)
-{
-    cout << "=====================================" << endl;
-    cout << " Palabra :" <<palabraActual<<endl;
-    cout << "=====================================" << endl;
-
-    cout << "Turno del jugador: " <<turno->nickname<<" Vidas restantes: "<< turno->cantidad_vidas<< endl;
-    cout << "1. Probar una letra (-1 vida)" << endl;
-    cout << "2. Solicitar primera letra" << endl;
-    cout << "3. Solicitar una pista" << endl;
-    cout << "4. Arriesgar la palabra (-1 vida)" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
-}
-
-
 void menu_principal_gestion_jugador()
 {
     
@@ -212,14 +192,14 @@ void menu_principal_ruleta_palabras()
     }while(opcion!=4);
 
 }
-
+//2
 void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGuiones) {
     int opcion,opcion2;
     tcad palabraArriesgada;
     bool sigueElJuego = true;
-    cin >> opcion;
+    
     while(sigueElJuego == true)
-    {
+    {   cin >> opcion;
         switch (opcion) {
         case 1:
             probarLetraPalabra(palabra.palabra, palabraGuiones);
@@ -292,6 +272,27 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
 
 }
 
+// 2
+void menu_juego_encurso(palabra_rul palabraActual, tcad&palabraGuiones, pturno&turno)
+{
+    cout << "=====================================" << endl;
+    cout << " Palabra : " <<palabraGuiones<<endl;
+    cout << "=====================================" << endl;
+
+    cout << "Turno del jugador: " <<turno->nickname<<" Vidas restantes: "<< turno->cantidad_vidas<< endl;
+    cout << "1. Probar una letra (-1 vida)" << endl;
+    cout << "2. Solicitar primera letra" << endl;
+    cout << "3. Solicitar una pista" << endl;
+    cout << "4. Arriesgar la palabra (-1 vida)" << endl;
+    cout << "=====================================" << endl;
+    cout << "Elija una opcion: ";
+
+    menu_gestion_opciones_juego(turno,palabraActual,palabraGuiones);
+
+}
+
+
+
 //1
 void menu_jugar() {
     cout << "=====================================" << endl;
@@ -316,7 +317,7 @@ void menu_principal_gestion_jugar() {
         menu_jugar();
         cin >> opcion;
         switch (opcion) {
-            case 1:
+            case 1:     // Seleccionar jugadores
                 cout << "********** Jugadores disponibles **********" << endl;
                 mostrar_orden(jugadores, true);
                 cout << "Ingrese nickname de jugador a elegir" << endl;
@@ -324,31 +325,32 @@ void menu_principal_gestion_jugar() {
 
                 obtener_nombre_apellido(archivo1, nickname, nombre, apellido);
                 cout << "Nombre: " << nombre << " , Apellido: " << apellido << endl;
-                // crear_turno(turno, nickname);
+                crear_turno(turno, nickname);
 
                 if (buscar_jugador_repetido(turnos, nickname)) { // Validacion para que no se repitan los jugadores en la cola
                     cout << "Jugador ya seleccionado" << endl;
                 } else {
                     cola_agregar_turno(turnos, turno);
+                    cout<<turnos.frente->nickname<<" agregado"<<endl;
                 }
                 system("pause");
                 break;
-
             case 2:
                 if (ruleta_creada) {
                     if (turnos.cantidad >= 2) {
-                        for (pruleta palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >= 2; palabraEnJuego = palabraEnJuego->sig) {
-                          //  convertirPalabraAGuiones(palabraEnJuego->dato, palabraGuiones);
+                        for (pruleta palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >1; palabraEnJuego = palabraEnJuego->sig) {
+                            convertirPalabraAGuiones(palabraEnJuego->dato.palabra, palabraGuiones);
                             do {
                                 turno = cola_quitar_turno(turnos);
-                            //    menu_juego_encurso(palabraEnJuego->dato, turno);
+                                cout<<turno->nickname;
+                                menu_juego_encurso(palabraEnJuego->dato,palabraGuiones, turno);
                                 if (turno->cantidad_vidas > 0) {
                                     cola_agregar_turno(turnos, turno);
                                     menu_gestion_opciones_juego(turno, palabraEnJuego->dato, palabraGuiones);
                                 }
                             } while (turnos.cantidad >= 2);
                         }
-
+                        cout<<"Entra4";
                         if (turnos.cantidad == 1) {
                             system("pause");
                             system("cls");

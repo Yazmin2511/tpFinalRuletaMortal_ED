@@ -38,10 +38,10 @@ bool cola_turnos_vacia(cola_turnos b){
 
 bool buscar_jugador_repetido(cola_turnos b, tcad jugador)
 {pturno i;
-    if(b.cantidad != 0)
+    if(!cola_turnos_vacia(b))
     {
-        for(i = b.frente; i!=NULL && strcmp( i->nickname,jugador)!=0;i= i->sig);
-        if(strcmp( i->nickname,jugador)==0)
+        for(i = b.frente; i!=NULL && strcmp(i->nickname, jugador)!=0 ; i= i->sig);
+        if(i!=NULL)
             return true;
     }
     return false;
@@ -49,7 +49,7 @@ bool buscar_jugador_repetido(cola_turnos b, tcad jugador)
 
 //agregar cola
 void cola_agregar_turno(cola_turnos &b,pturno nuevo){
-    if(b.cantidad == 0)
+    if(cola_turnos_vacia(b))
     {
         b.frente = nuevo;
         b.fin = nuevo;
@@ -59,8 +59,10 @@ void cola_agregar_turno(cola_turnos &b,pturno nuevo){
         pturno i;
         for(i=b.frente; i->sig!=NULL;i=i->sig);
         i->sig = nuevo;
-        b.frente = nuevo;
+        b.fin = nuevo;
     }  
+
+    b.cantidad++;
 }
 
 pturno cola_quitar_turno(cola_turnos &b){
@@ -74,10 +76,9 @@ pturno cola_quitar_turno(cola_turnos &b){
        }
        else
        {
-            for(i=b.frente;(i->sig)->sig!=NULL;i=i->sig);
-            extraido = i->sig;
-            b.fin = i;
-            i->sig = NULL;
+            extraido = b.frente;
+            b.frente= extraido->sig;
+            extraido->sig = NULL;
        }
     }
     return extraido;
