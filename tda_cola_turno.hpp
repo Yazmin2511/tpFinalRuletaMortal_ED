@@ -1,37 +1,44 @@
 #include "t_cad.hpp"
 #include <stdlib.h>
 #include <string.h>
+#include "tda_pila_palabras acertadas.hpp"
 
 typedef struct tturno *pturno;
 typedef struct tturno{
     pturno sig;
     tcad nickname;
+    int cantidad_vidas;
+    pila_palabrasAcertadas palabras_acertadas;
 };
 
 typedef struct cola_turnos
 {  
    pturno frente;
    pturno fin;
+   int cantidad;
 };
 //inicialización de la bicola
 void inicializar_turnos(cola_turnos &b){
    b.frente = NULL;
+   b.cantidad = 0;
 }
 
 void crear_turno(pturno&p , tcad jugador)
 {   p = new tturno;
     strcpy(p->nickname,jugador);
     p->sig = NULL;
+    p->cantidad_vidas = 5;
+    iniciar_pila_palabras(p->palabras_acertadas);
 }
 
 //cola vacia
 bool cola_turnos_vacia(cola_turnos b){
-    return b.frente == NULL;
+    return b.cantidad == 0;
 }
 
 bool buscar_jugador_repetido(cola_turnos b, tcad jugador)
 {pturno i;
-    if(b.frente != NULL)
+    if(b.cantidad != 0)
     {
         for(i = b.frente; i!=NULL && strcmp( i->nickname,jugador)!=0;i= i->sig);
         if(strcmp( i->nickname,jugador)==0)
@@ -42,7 +49,7 @@ bool buscar_jugador_repetido(cola_turnos b, tcad jugador)
 
 //agregar cola
 void cola_agregar_turno(cola_turnos &b,pturno nuevo){
-    if(b.frente == NULL)
+    if(b.cantidad == 0)
     {
         b.frente = nuevo;
         b.fin = nuevo;
