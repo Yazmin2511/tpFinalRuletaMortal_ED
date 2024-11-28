@@ -76,7 +76,7 @@ void menu_principal_gestion_jugador()
     
     int opcion;
     tcad archivo = "jugadores.dat";
-    
+    tcad asc;
     do{
         system("cls");
         menu_gestion_jugadores();
@@ -107,8 +107,11 @@ void menu_principal_gestion_jugador()
                 break;
             }
         case 4:   
-
-                listar_jugadores(archivo, true);
+                crear_comprobarCadenaNoVacia(asc,"Listar de forma asc/desc: ");
+                if(strcmp(asc,"asc"))
+                    listar_jugadores(archivo, true);
+                else
+                    listar_jugadores(archivo, false);
                 system("pause");
                 break;
         case 5:     
@@ -200,93 +203,90 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
     bool continuar = true;
     do{
         cin >> opcion;
-    switch (opcion) {
-        case 1:
-            probarLetraPalabra(palabra.palabra, palabraGuiones);
-            if(strcmp(palabra.palabra,palabraArriesgada) == 0)
-                {
-                    turno->cantidad_vidas+=3;
-                    cout << "========================" << endl; 
-                    cout << "<3 FELICIDADES!!! <3 " << endl; 
-                    cout << "Has acertado la palabra." << endl; 
-                    cout << "========================" << endl;
-                    palabraResuelta = true; 
-                    push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
-                }
-            turno->cantidad_vidas -= 1;
-            continuar=false;
-            break;
-        case 2:
-            turno->cantidad_vidas -= 1;
-            cambiarPrimeraLetra(palabra.palabra,palabraGuiones);
-            continuar=false;
-            break;
-        case 3:     // Pistas sinonimos o definicion
-        {
-            cout<<"1 Definicion (-2 vidas) "<<endl;
-            cout<<"2 Sinonimo (-3 vidas) "<<endl;
-            cout<<"Elija opcion:  "<<endl;
-            cin>>opcion2;
-            system("cls");
-            if(opcion2 == 1)
-            {  if((turno->cantidad_vidas-2) > 0 )
-                {   
-                    turno->cantidad_vidas -= 2;
-                    cout<<palabra.definicion<<endl;
-                    continuar=false;
-                }
-                else
-                    cout<<"Vidas insuficientes"<<endl;
-            }
-            else
-            {   if(strlen(palabra.sinonimos)>0)
-                {
-                    if((turno->cantidad_vidas-3) > 0 )
+        switch (opcion) {
+            case 1:
+                probarLetraPalabra(palabra.palabra, palabraGuiones);
+                if(strcmp(palabra.palabra,palabraArriesgada) == 0)
                     {
-                        turno->cantidad_vidas -= 3;
-                        cout<<palabra.sinonimos<<endl;
+                        turno->cantidad_vidas+=3;
+                        cout << "========================" << endl; 
+                        cout << "<3 FELICIDADES!!! <3 " << endl; 
+                        cout << "Has acertado la palabra." << endl; 
+                        cout << "========================" << endl;
+                        palabraResuelta = true; 
+                        push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
+                    }
+                turno->cantidad_vidas -= 1;
+                continuar=false;
+                break;
+            case 2:
+                turno->cantidad_vidas -= 1;
+                cambiarPrimeraLetra(palabra.palabra,palabraGuiones);
+                continuar=false;
+                break;
+            case 3:     // Pistas sinonimos o definicion
+            {
+                cout<<"1 Definicion (-2 vidas) "<<endl;
+                cout<<"2 Sinonimo (-3 vidas) "<<endl;
+                cout<<"Elija opcion:  "<<endl;
+                cin>>opcion2;
+                system("cls");
+                if(opcion2 == 1)
+                {  if((turno->cantidad_vidas-2) > 0 )
+                    {   
+                        turno->cantidad_vidas -= 2;
+                        cout<<palabra.definicion<<endl;
                         continuar=false;
                     }
                     else
                         cout<<"Vidas insuficientes"<<endl;
-                }else
-                {
-                    cout<<"No hay sinonimos disponibles"<<endl;
-                    return;
-                }
-                    
-            }
-            system("pause");
-        }
-        break;
-
-        case 4: //Arriesgar palabra
-                turno->cantidad_vidas -= 1;
-                cout<< "Ingrese palabra"<<endl;
-                cin>>palabraArriesgada;
-                if(strcmp(palabra.palabra,palabraArriesgada) == 0)
-                {
-                    turno->cantidad_vidas+=3;
-                    cout << "========================" << endl; 
-                    cout << "<3 FELICIDADES!!! <3 " << endl; 
-                    cout << "Has acertado la palabra." << endl; 
-                    cout << "========================" << endl;
-                    palabraResuelta = true;   
-                    push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
                 }
                 else
-                {
-                    cout << "========================" << endl; 
-                    cout << " </3 FALLASTE! </3 " << endl; 
-                    cout << "La palabra no es correcta." << endl; 
-                    cout << "========================" << endl;
+                {   if(strlen(palabra.sinonimos)>0)
+                    {
+                        if((turno->cantidad_vidas-3) > 0 )
+                        {   continuar=false;
+                            turno->cantidad_vidas -= 3;
+                            cout<<palabra.sinonimos<<endl;
+                        }
+                        else
+                            cout<<"Vidas insuficientes"<<endl;
+                    }else
+                        cout<<"No hay sinonimos registrados"<<endl;
+                        
                 }
+                system("pause");
+            }
             break;
 
-        default:
-            cout<<"Opcion invalida"<<endl;
-            break;
-    }
+            case 4: //Arriesgar palabra
+                    turno->cantidad_vidas -= 1;
+                    cout<< "Ingrese palabra"<<endl;
+                    cin>>palabraArriesgada;
+                    if(strcmp(palabra.palabra,palabraArriesgada) == 0)
+                    {
+                        turno->cantidad_vidas+=3;
+                        cout << "========================" << endl; 
+                        cout << "<3 FELICIDADES!!! <3 " << endl; 
+                        cout << "Has acertado la palabra." << endl; 
+                        cout << "========================" << endl;
+                        palabraResuelta = true;   
+                        push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
+                    }
+                    else
+                    {
+                        cout << "========================" << endl; 
+                        cout << " </3 FALLASTE! </3 " << endl; 
+                        cout << "La palabra no es correcta." << endl; 
+                        cout << "========================" << endl;
+                        continuar=false;
+                    }
+                break;
+
+            default:
+                cout<<"Opcion invalida"<<endl;
+                break;
+        }
     }
     while(continuar == true);
 }
@@ -336,9 +336,8 @@ void menu_principal_gestion_jugar() {
         switch (opcion) {
             case 1: // Seleccionar jugadores
             {
-                cout << "********** Jugadores disponibles **********" << endl;
-                mostrar_orden(jugadores, true);
-                cout << "Ingrese nickname de jugador a elegir" << endl;
+                listar_jugadores(archivo1, true);
+                cout << "|     Ingrese nickname de jugador a elegir     |" << endl;
                 cin >> nickname;
 
                 obtener_nombre_apellido(archivo1, nickname, nombre, apellido);
@@ -361,11 +360,13 @@ void menu_principal_gestion_jugar() {
                 pruleta palabraEnJuego=NULL;
                 if (ruleta_creada) {
                     if (turnos.cantidad >= 2) {
-                        for (palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >1; palabraEnJuego = palabraEnJuego->sig) {
+                        for (palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >1; palabraEnJuego = palabraEnJuego->sig)
+                        {
                             system("cls");
                             palabraResuelta = false;
                             convertirPalabraAGuiones(palabraEnJuego->dato.palabra, palabraGuiones);
-                            do { // Recorre los turnos de los jugadores
+                            do
+                            { // Recorre los turnos de los jugadores
                                 turno = cola_quitar_turno(turnos);
                                 menu_juego_encurso(palabraGuiones, turno);
                                 menu_gestion_opciones_juego(turno, palabraEnJuego->dato, palabraGuiones,palabraResuelta);
@@ -376,9 +377,12 @@ void menu_principal_gestion_jugar() {
                                     //Animacion
                                     std::cout<<" Jugador "<< turno->nickname<<" fue alcanzado por la parca"<<endl;
                                 }
+                                cout<< "Palabra resuelta "<< palabraResuelta<<endl;
+                                system("pause");
                                 system("cls");
                             } while (turnos.cantidad >1 && palabraResuelta == false); // Mientras haya mas de 1 jugador vivo y haya palabras 
                         }
+                        
                         if (palabraEnJuego == NULL) {
                             system("pause");
                             system("cls");
@@ -416,10 +420,6 @@ void menu_principal_gestion_jugar() {
         }
     } while (opcion != 3);
 }
-
-
-
-
 
 void menu() {
     tcad archivo = "jugadores.dat"; 
