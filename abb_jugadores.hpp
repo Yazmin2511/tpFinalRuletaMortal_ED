@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstring> // Biblioteca para strcpy
-typedef char tcad[30];
-typedef struct tnodo *pnodo;
+#include "t_cad.hpp"
+typedef struct tjugador *pjugador;
 
-typedef struct tjugador{
+typedef struct player{
     tcad apellido;
     tcad nombre;
     tcad nickname;
@@ -12,24 +12,24 @@ typedef struct tjugador{
     int cantidad_partidas_ganadas;
 };
 
-typedef struct tnodo{
-    tjugador jugador;
-    pnodo izq;
-    pnodo der;
+typedef struct tjugador{
+    player jugador;
+    pjugador izq;
+    pjugador der;
 };
 
-void inicializar_arbol(pnodo&p)
+void inicializar_arbol(pjugador&p)
 {   
     p=NULL;
 }
 
 
-bool busqueda(pnodo p, tcad nickname){
+bool busqueda(pjugador p, tcad nickname){
     bool encontrado;
-    if(p==NULL){
+    if(p == NULL){
         return false;
     }else{
-        if(strcmp(p->jugador.nickname, nickname) == 0)
+        if(strcmp( p->jugador.nickname , nickname) == 0)
             return true;
         else{
             if(p->jugador.nickname[0] > nickname[0])
@@ -42,9 +42,9 @@ bool busqueda(pnodo p, tcad nickname){
     return encontrado;
 }
 
-void crear_nodo(pnodo&p , pnodo arbol)
+void crear_nodo(pjugador&p , pjugador arbol)
 {   bool nickname_repetido=true;
-    p = new tnodo;
+    p = new tjugador;
     if(p == NULL)
         std::cout<<"Memoria llena"<<std::endl;
     else
@@ -79,8 +79,9 @@ void crear_nodo(pnodo&p , pnodo arbol)
     }
 }
 
-void crear_nodo_temp(pnodo &p, const char *nombre, const char *apellido, const char *nickname) 
-{ p = new tnodo; 
+//Eliminar si no lo usamos 
+void crear_nodo_temp(pjugador &p, tcad nombre, tcad apellido, tcad nickname) 
+{ p = new tjugador; 
     if (p == NULL) 
     std::cout<< "Memoria llena" << std::endl; 
     else { // Copia los valores de los punteros char* a los arreglos de char 
@@ -95,7 +96,7 @@ void crear_nodo_temp(pnodo &p, const char *nombre, const char *apellido, const c
     } 
 }
 
-// void insertar(pnodo&arbol , pnodo nuevo)
+// void insertar(pjugador&arbol , pjugador nuevo)
 // {
 //     if(arbol == NULL)
 //         arbol = nuevo;
@@ -111,7 +112,7 @@ void crear_nodo_temp(pnodo &p, const char *nombre, const char *apellido, const c
 // }
 
 
-void insertar(pnodo& arbol, pnodo nuevo)
+void insertar(pjugador& arbol, pjugador nuevo)
 {
     if (arbol == NULL)
     {
@@ -127,7 +128,7 @@ void insertar(pnodo& arbol, pnodo nuevo)
     }
 }
 
-void mostrar_orden(pnodo arbol , bool asc)
+void mostrar_orden(pjugador arbol , bool asc)
 {  
     if(arbol != NULL )
     {   
@@ -147,8 +148,8 @@ void mostrar_orden(pnodo arbol , bool asc)
     
 }
 
-pnodo busqueda_datos(pnodo a,tcad buscado) 
-{ pnodo encontrado=NULL;
+pjugador busqueda_datos(pjugador a,tcad buscado) 
+{ pjugador encontrado=NULL;
     if (a!=NULL)
     { 
         if (strcmp(a->jugador.nickname, buscado) == 0) 
@@ -163,7 +164,7 @@ pnodo busqueda_datos(pnodo a,tcad buscado)
     return encontrado;
 }
 
-void mostrar_jugador(pnodo a)
+void mostrar_jugador(pjugador a)
 {
     std::cout << "Jugador: " << a->jugador.nombre << " " << a->jugador.apellido 
                     << " (" << a->jugador.nickname << ") | Mejor Puntaje: " << a->jugador.mejor_puntaje 
@@ -172,9 +173,9 @@ void mostrar_jugador(pnodo a)
 }
 
 
-void modificar_jugador(pnodo arbol,tcad nickname)
+void modificar_jugador(pjugador arbol,tcad nickname)
 {
-    pnodo buscado = busqueda_datos(arbol,nickname);
+    pjugador buscado = busqueda_datos(arbol,nickname);
     if(buscado == NULL)
         std::cout<<"Nickname no encontrado"<<std::endl;
     else
@@ -189,45 +190,101 @@ void modificar_jugador(pnodo arbol,tcad nickname)
     }
 }
 
-// pnodo eliminar(pnodo &a,pnodo valor)
-// {
-//     pnodo aux; 
-// if (a==NULL) 
-//     aux=NULL; 
-// else{
-//     if (a->dato > valor)
-//         aux=eliminar(a->izq,valor); 
-//     else
-//     {
-//         if (a->dato < valor)
-//             aux=eliminar(a->der,valor); 
-//         else
-//         {
-//             aux=a;
-//             if(a->izq == NULL)
-//                 a=a->der;
-//             else
-//             {
-//                 if(a->der==NULL)
-//                     a=a->izq;
-//                 else
-//                     aux=menor_mayores(a,a->der);
-//             }
-//         }
-//     }
-        
-// }
-// return aux;
-// }
 
-// pnodo menor_mayores(pnodo elegido,pnodo &menor) 
-// { pnodo aux;
-//     if (menor->izq!=NULL)
-//         aux=menor_mayores(elegido,menor->izq);
-//     else
-//     { cambio(elegido->dato,menor->dato);
-//         aux=menor; 
-//         menor=menor->der;
-//     }
-//     return aux;
-// }
+pjugador eliminar_nodo(pjugador& arbol, tcad nickname, pjugador& padre) {
+    if (!arbol) {
+        return NULL; // Nodo no encontrado
+    }
+
+    if (strcmp(nickname, arbol->jugador.nickname) < 0) {
+        return eliminar_nodo(arbol->izq, nickname, arbol);
+    } else if (strcmp(nickname, arbol->jugador.nickname) > 0) {
+        return eliminar_nodo(arbol->der, nickname, arbol);
+    } else { // Nodo encontrado
+        pjugador eliminado = arbol;
+
+        // Caso 1: Nodo sin hijos
+        if (!arbol->izq && !arbol->der) {
+            arbol = NULL;
+        }
+        // Caso 2: Nodo con un hijo
+        else if (!arbol->izq) {
+            arbol = arbol->der;
+        } else if (!arbol->der) {
+            arbol = arbol->izq;
+        }
+        // Caso 3: Nodo con dos hijos
+        else {
+            pjugador sucesor = arbol->der;
+            pjugador padre_sucesor = arbol;
+            while (sucesor->izq) {
+                padre_sucesor = sucesor;
+                sucesor = sucesor->izq;
+            }
+            arbol->jugador = sucesor->jugador; // Copiar datos del sucesor
+            eliminado = eliminar_nodo(arbol->der, sucesor->jugador.nickname, padre_sucesor);
+        }
+
+        return eliminado;
+    }
+}
+
+int cantidad_jugadores( pjugador arbol)
+{
+    int cant;
+    if(arbol == NULL)
+        return 0;
+    else
+    {
+        cant=cantidad_jugadores(arbol->izq)+cantidad_jugadores(arbol->der)+1;
+    }
+
+    return cant;
+}
+
+void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
+{
+     if(arbol != NULL )
+    {   
+        if(arbol->jugador.puntaje_total==0)
+            insertar(aux,arbol);
+        
+        generar_cuadro_de_honor(arbol->izq,aux);
+        generar_cuadro_de_honor(arbol->der,aux);
+    }
+}
+
+void mostrar_cuadro_honor(pjugador arbol,bool asc)
+{pjugador aux=NULL;
+    generar_cuadro_de_honor(arbol,aux);
+    if(aux == NULL)
+        std::cout<<"No hay jugadores con puntajes mayores a 0"<<std::endl;
+    else
+    {
+        std::cout << "\n"; 
+        std::cout << "====================================" << std::endl; 
+        std::cout << " *** Cuadro de Honor *** " << std::endl; 
+        std::cout << "====================================" << std::endl; 
+        std::cout << "\n";
+         mostrar_orden(aux,asc);
+    }
+       
+}
+
+void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
+    FILE *file = fopen(archivo, "rb"); 
+    if (file == NULL) { 
+        std::cout << "El archivo no existe o no pudo abrirse.\n"; return; 
+        } 
+        player temp_jugador; 
+        while (fread(&temp_jugador, sizeof(player), 1, file)) { 
+            if (strcmp(temp_jugador.nickname, nickname) == 0) { 
+                strcpy(nombre, temp_jugador.nombre); 
+                strcpy(apellido, temp_jugador.apellido); 
+                fclose(file); 
+               return; 
+            } 
+         } 
+         fclose(file); 
+        std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n"; 
+}
