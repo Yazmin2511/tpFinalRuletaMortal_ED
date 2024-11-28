@@ -257,7 +257,7 @@ void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
 void mostrar_cuadro_honor(pjugador arbol,bool asc)
 {pjugador aux=NULL;
     generar_cuadro_de_honor(arbol,aux);
-    if(aux =NULL)
+    if(aux ==NULL)
         std::cout<<"No hay jugadores con puntajes mayores a 0"<<std::endl;
     else
     {
@@ -271,7 +271,7 @@ void mostrar_cuadro_honor(pjugador arbol,bool asc)
        
 }
 
-void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
+void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido, int &cantidad_partidas_ganadas) { 
     FILE *file = fopen(archivo, "rb"); 
     if (file == NULL) { 
         std::cout << "El archivo no existe o no pudo abrirse.\n"; return; 
@@ -281,6 +281,7 @@ void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &ap
             if (strcmp(temp_jugador.nickname, nickname) == 0) { 
                 strcpy(nombre, temp_jugador.nombre); 
                 strcpy(apellido, temp_jugador.apellido); 
+                cantidad_partidas_ganadas = temp_jugador.cantidad_partidas_ganadas;
                 fclose(file); 
                return; 
             } 

@@ -199,10 +199,11 @@ void menu_principal_jugar()
         case 1:
             {
                   tcad nicname,nombre,apellido;
+                  int part;
                   cin>>nicname;
 
-                obtener_nombre_apellido(archivo1,nicname,nombre,apellido);
-                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<endl;
+                obtener_nombre_apellido(archivo1,nicname,nombre,apellido,part);
+                cout<<"Nombre: "<<nombre<<"   -- apellido: "<<apellido<<" cantidad partidas:"<<part<<endl;
                 system("pause");
             }
             break;
