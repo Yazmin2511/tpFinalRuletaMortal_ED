@@ -292,164 +292,148 @@ void menu_gestion_opciones_juego(pturno turno,palabra_rul palabra,tcad&palabraGu
 
 }
 
-
-
-void menu_principal_gestion_jugar()
-{ 
-    tcad archivo1 = "jugadores.dat",nickname,nombre,apellido;
-    inicializar_turnos(turnos);
-    pturno turno;
-    int opcion ;
-    tcad palabraGuiones;
-    do{
-        cin>>opcion;
-        switch (opcion)
-        {
-        case 1:
-            {   cout<<"********** Jugadores disponibles **********"<<endl;
-                mostrar_orden(jugadores,true);
-                cout<<"Ingrese nickname de jugador a elegir"<<endl;
-                cin>>nickname;
-
-                obtener_nombre_apellido(archivo1,nickname,nombre,apellido);
-                cout<<"Nombre: "<<nombre<<" , Apellido: "<<apellido<<endl;
-                //crear_turno(turno,nickname);
-
-                if(buscar_jugador_repetido(turnos,nickname) == true)    // Validacion para que no se repitan los jugadores en la cola
-                    cout<<"Jugador ya seleccionado"<<endl;
-                else
-                    cola_agregar_turno(turnos,turno);
-                system("pause");
-            }
-            break;
-        case 2:
-            {
-                if(ruleta_creada==true){
-                    if(turnos.cantidad >=2)
-                    {   // otra validacion que termine el bucle cuando haya 1 jugador restante
-                        for(pruleta palabraEnJuego=ruleta_palabras.inicio; palabraEnJuego!= NULL && turnos.cantidad>=2 ; palabraEnJuego=palabraEnJuego->sig)
-                        {   //menu_turnos_juego();
-                            convertirPalabraAGuiones(palabraEnJuego->dato.palabra,palabraGuiones);
-                            do{
-                                turno = cola_quitar_turno(turnos);
-                                menu_juego_encurso(palabraEnJuego->dato.palabra,turno);
-                                if(turno->cantidad_vidas > 0)
-                                {
-                                    cola_agregar_turno(turnos,turno);
-                                    menu_gestion_opciones_juego(turno,palabraEnJuego->dato,palabraGuiones);
-                                }
-                             
-                                
-                            }while(turnos.cantidad >=2 );
-                        }
-
-                        if(turnos.cantidad == 1)
-                        {   // La animacion
-                            system("pause");
-                            system("cls");
-                            cout << "Calculando puntaje final"<< endl;
-                            system("pause");
-                            system("cls");
-                            // buscamos el jugador por el nick y le sumamos el puntaje 
-                            //Mostramos por pantalla
-                        }
-                        else
-                        {
-                            
-                        }
-
-
-                    }
-                    else{
-                    cout<<"**********************Estimado seleccione al menos 2 jugadores*********************"<<endl;
-
-                }
-
-                }else{
-                    cout<<"**********************Estimado debe generar la ruleta*********************"<<endl;
-                }
-            }
-            break;
-
-      
-        case 3:
-            
-            cout<<"BYE GUERREROS"<<endl;
-            break;
-        
-        default:
-            break;
-        }
-
-    }while(opcion!=3);
-
-}
-
 //1
-void menu_jugar(){
+void menu_jugar() {
     cout << "=====================================" << endl;
     cout << "                 JUGAR               " << endl;
     cout << "=====================================" << endl;
-
     cout << "1. Seleccionar jugadores" << endl;
     cout << "2. Iniciar juego" << endl;
     cout << "3. Volver al menu anterior" << endl;
     cout << "=====================================" << endl;
     cout << "Elija una opcion: ";
-     menu_principal_gestion_jugar();
 }
 
-void menu()
-{
+void menu_principal_gestion_jugar() { 
+    tcad archivo1 = "jugadores.dat", nickname, nombre, apellido;
+    inicializar_turnos(turnos);
+    pturno turno;
+    int opcion;
+    tcad palabraGuiones;
+    
+    do {
+        system("cls");
+        menu_jugar();
+        cin >> opcion;
+        switch (opcion) {
+            case 1:
+                cout << "********** Jugadores disponibles **********" << endl;
+                mostrar_orden(jugadores, true);
+                cout << "Ingrese nickname de jugador a elegir" << endl;
+                cin >> nickname;
+
+                obtener_nombre_apellido(archivo1, nickname, nombre, apellido);
+                cout << "Nombre: " << nombre << " , Apellido: " << apellido << endl;
+                // crear_turno(turno, nickname);
+
+                if (buscar_jugador_repetido(turnos, nickname)) { // Validacion para que no se repitan los jugadores en la cola
+                    cout << "Jugador ya seleccionado" << endl;
+                } else {
+                    cola_agregar_turno(turnos, turno);
+                }
+                system("pause");
+                break;
+
+            case 2:
+                if (ruleta_creada) {
+                    if (turnos.cantidad >= 2) {
+                        for (pruleta palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >= 2; palabraEnJuego = palabraEnJuego->sig) {
+                          //  convertirPalabraAGuiones(palabraEnJuego->dato, palabraGuiones);
+                            do {
+                                turno = cola_quitar_turno(turnos);
+                            //    menu_juego_encurso(palabraEnJuego->dato, turno);
+                                if (turno->cantidad_vidas > 0) {
+                                    cola_agregar_turno(turnos, turno);
+                                    menu_gestion_opciones_juego(turno, palabraEnJuego->dato, palabraGuiones);
+                                }
+                            } while (turnos.cantidad >= 2);
+                        }
+
+                        if (turnos.cantidad == 1) {
+                            system("pause");
+                            system("cls");
+                            cout << "Calculando puntaje final..." << endl;
+                            system("pause");
+                            system("cls");
+                            // buscamos el jugador por el nick y le sumamos el puntaje 
+                            // Mostramos por pantalla
+                        }
+
+                    } else {
+                        cout << "**********************Estimado seleccione al menos 2 jugadores*********************" << endl;
+                        system("pause");
+                    }
+
+                } else {
+                    cout << "**********************Estimado debe generar la ruleta*********************" << endl;
+                    system("pause");
+                }
+                break;
+
+            case 3:
+                cout << "BYE GUERREROS" << endl;
+                system("pause");
+                return; // Salir del menú
+
+            default:
+                cout << "Opción no válida. Intente de nuevo." << endl;
+                system("pause");
+                break;
+        }
+    } while (opcion != 3);
+}
+
+
+
+
+
+void menu() {
     tcad archivo = "jugadores.dat"; 
-    int opcion ;    
-    do{
+    int opcion;    
+    do {
         system("cls");
         opciones();
-        
-        cin>>opcion;
-        switch (opcion)
-        {
-        case 1:
-            menu_principal_gestion_jugador();
-            break;
-        case 2:
-            menu_principal_ruleta_palabras();
-            break;
-        case 3: //Jugar
-            if(contar_jugadores_desde_archivo(archivo)==0)
-                std::cout<<"No hay jugadores registrados"<<std::endl;
-            else
-            {
-                if(contar_jugadores_desde_archivo(archivo) < 2)
-                    std::cout<<"Necesita al menos 2 jugadores para iniciar el juego"<<std::endl;
-                else
-                {   
-                    system("cls");
-                    menu_jugar();
-                   
+        cin >> opcion;
+        switch (opcion) {
+            case 1:
+                menu_principal_gestion_jugador();
+                break;
+            case 2:
+                menu_principal_ruleta_palabras();
+                break;
+            case 3: // Jugar
+                if (contar_jugadores_desde_archivo(archivo) == 0) {
+                    std::cout << "No hay jugadores registrados." << std::endl;
+                } else {
+                    if (contar_jugadores_desde_archivo(archivo) < 2) {
+                        std::cout << "Necesita al menos 2 jugadores para iniciar el juego." << std::endl;
+                    } else {   
+                        menu_principal_gestion_jugar();
+                    }
                 }
-            }
-            system("pause");
-            break;
-        case 4:
-        {   tcad resp;
-            std::cout<<"Mostrar puntajes en orden asc o desc? (asc/desc)"<<std::endl;
-            std::cin>>resp;
-            bool asc = strcmp(resp,"asc")==0;
-            mostrar_cuadro_honor(jugadores,asc);
-            system("pause");
-        }
-            break;
-        case 5:
-            muerte_jugador();
-            cout<<"Bye valiente jugador"<<endl;
-            break;
+                system("pause");
+                break;
+            case 4:
+                {   
+                    tcad resp;
+                    std::cout << "Mostrar puntajes en orden ascendente o descendente? (asc/desc)" << std::endl;
+                    std::cin >> resp;
+                    bool asc = strcmp(resp, "asc") == 0;
+                    mostrar_cuadro_honor(jugadores, asc);
+                    system("pause");
+                }
+                break;
+            case 5:
+                muerte_jugador();
+                cout << "Bye valiente jugador." << endl;
+                system("pause");
+                break;
         
-        default:
-            break;
+            default:
+                cout << "Opción no válida. Intente de nuevo." << endl;
+                system("pause");
+                break;
         }
 
-    }while(opcion!=5);
-
+    } while (opcion != 5);
 }
