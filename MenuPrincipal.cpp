@@ -10,9 +10,9 @@ using namespace std;
 
 main()
 {
-  cout<<"You're a loser, baby"<<endl;
-  menu();
-  return 0;
+    cout<<"You're a loser, baby"<<endl;
+    menu();
+    return 0;
 }
 
 

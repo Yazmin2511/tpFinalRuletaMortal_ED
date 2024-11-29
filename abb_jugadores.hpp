@@ -7,9 +7,9 @@ typedef struct player{
     tcad apellido;
     tcad nombre;
     tcad nickname;
-    int mejor_puntaje;
-    int puntaje_total;
-    int cantidad_partidas_ganadas;
+    int mejor_puntaje;  // cambiar //nickname -> jugador
+    int puntaje_total; // +=puntaje
+    int cantidad_partidas_ganadas; // ++
 };
 
 typedef struct tjugador{
@@ -288,3 +288,31 @@ void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &ap
          fclose(file); 
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n"; 
 }
+
+void modificar_ganador(tcad& archivo, tcad nickname, int puntaje_total) {
+    FILE *file = fopen(archivo, "rb+");
+    if (file == NULL) {
+        std::cout << "El archivo no existe o no pudo abrirse.\n";
+        return;
+    }
+    player temp_jugador;
+    while (fread(&temp_jugador, sizeof(player), 1, file)) {
+        if (strcmp(temp_jugador.nickname, nickname) == 0) {
+            if (puntaje_total > temp_jugador.mejor_puntaje)
+                temp_jugador.mejor_puntaje = puntaje_total;
+
+            temp_jugador.cantidad_partidas_ganadas++;
+            temp_jugador.puntaje_total += puntaje_total;
+
+            // Mueve el puntero de archivo hacia atrás para sobrescribir el registro
+            fseek(file, -sizeof(player), SEEK_CUR);
+            fwrite(&temp_jugador, sizeof(player), 1, file);
+            fclose(file);
+            return;
+        }
+    }
+
+    fclose(file);
+    std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n";
+}
+

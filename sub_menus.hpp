@@ -7,7 +7,7 @@
 #include "animaciones.hpp"
 #include "tda_cola_turno.hpp"
 #include <stdlib.h>
-using namespace std;
+
 
 pjugador jugadores = NULL;
 ppalabra palabras=NULL;
@@ -23,7 +23,7 @@ void crear_comprobarCadenaNoVacia(tcad& cadena , tcad mensaje) {
         std::cout << mensaje;
         std::cin.getline(cadena, 50);
         if (strlen(cadena) == 0)
-            std::cout << "La cadena no puede estar vacía. Intente nuevamente." << std::endl;
+            std::cout << "La cadena no puede estar vacia. Intente nuevamente." << std::endl;
         else
             esValida = true;
     }
@@ -31,44 +31,44 @@ void crear_comprobarCadenaNoVacia(tcad& cadena , tcad mensaje) {
 
 void opciones(){
     
-    cout << "=====================================" << endl;
-    cout << "       ¡BIENVENIDO AL JUEGO!        " << endl;
-    cout << "=====================================" << endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "       ¡BIENVENIDO AL JUEGO!        " << std::endl;
+    std::cout << "=====================================" << std::endl;
 
-    cout << "1. Gestion de jugadores" << endl;
-    cout << "2. Crear ruleta de palabras" << endl;
-    cout << "3. Jugar" << endl;
-    cout << "4. Cuadro de honor" << endl;
-    cout << "5. Salir del juego" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
+    std::cout << "1. Gestion de jugadores" << std::endl;
+    std::cout << "2. Crear ruleta de palabras" << std::endl;
+    std::cout << "3. Jugar" << std::endl;
+    std::cout << "4. Cuadro de honor" << std::endl;
+    std::cout << "5. Salir del juego" << std::endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "Elija una opcion: ";
 }
 
 void menu_gestion_jugadores(){
-    cout << "=====================================" << endl;
-    cout << "               JUGADOR               " << endl;
-    cout << "=====================================" << endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "               JUGADOR               " << std::endl;
+    std::cout << "=====================================" << std::endl;
 
-    cout << "1. Agregar jugador" << endl;
-    cout << "2. Consultar" << endl;
-    cout << "3. Modificar jugador" << endl;
-    cout << "4. Lista de jugadores" << endl;
-    cout << "5. Eliminar jugador" << endl;
-    cout << "6. Volver al menu anterior" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
+    std::cout << "1. Agregar jugador" << std::endl;
+    std::cout << "2. Consultar" << std::endl;
+    std::cout << "3. Modificar jugador" << std::endl;
+    std::cout << "4. Lista de jugadores" <<std::endl;
+    std::cout << "5. Eliminar jugador" << std::endl;
+    std::cout << "6. Volver al menu anterior" << std::endl;
+    std::cout << "=====================================" <<std::endl;
+    std::cout << "Elija una opcion: ";
 }
 void menu_crear_ruletas_palabras(){
-    cout << "=====================================" << endl;
-    cout << "               RULETA               " << endl;
-    cout << "=====================================" << endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "               RULETA               " << std::endl;
+    std::cout << "=====================================" << std::endl;
 
-    cout << "1. Registrar palabras" << endl;
-    cout << "2. GENERAR RULETA" << endl;
-    cout << "3. Mostrar ruleta" << endl;
-    cout << "4. Volver al menu anterior" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
+    std::cout << "1. Registrar palabras" << std::endl;
+    std::cout << "2. GENERAR RULETA" << std::endl;
+    std::cout << "3. Mostrar ruleta" << std::endl;
+    std::cout << "4. Volver al menu anterior" << std::endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "Elija una opcion: ";
 }
 
 void menu_principal_gestion_jugador()
@@ -80,7 +80,7 @@ void menu_principal_gestion_jugador()
     do{
         system("cls");
         menu_gestion_jugadores();
-        cin >> opcion;
+        std::cin >> opcion;
       
         switch (opcion)
         {
@@ -108,7 +108,7 @@ void menu_principal_gestion_jugador()
             }
         case 4:   
                 crear_comprobarCadenaNoVacia(asc,"Listar de forma asc/desc: ");
-                if(strcmp(asc,"asc"))
+                if(strcmp(asc,"asc")==0)
                     listar_jugadores(archivo, true);
                 else
                     listar_jugadores(archivo, false);
@@ -148,7 +148,7 @@ void menu_principal_ruleta_palabras()
     do{
         system("cls");
         menu_crear_ruletas_palabras();
-        cin>>opcion;
+        std::cin>>opcion;
         switch (opcion)
         {
         case 1:
@@ -163,13 +163,12 @@ void menu_principal_ruleta_palabras()
                     }
                     //con esto la opcion 2 de jugar queda inabilitada 
                     ruleta_creada=false;
-                    cout<<"vacio"<<endl;
                     contador=0;
                 }
-                cout << "Ingrese la cantidad de palabras para la ruleta (mínimo 5): ";
-                cin >> cantidad; 
+                std::cout << "Ingrese la cantidad de palabras para la ruleta (minimo 5): ";
+                std::cin >> cantidad; 
                 if(cantidad<5){
-                    cout<<"Se debe Ingresar 5 o mas "<<endl;
+                    std::cout<<"Se debe Ingresar 5 o mas "<<std::endl;
                 }else{
                     generar_ruleta(archivo_palabras, ruleta_palabras, cantidad);
                     contador++;
@@ -186,7 +185,7 @@ void menu_principal_ruleta_palabras()
             break;
       
         case 4:
-            cout<<"sigue asi vamos guerrero"<<endl;
+            std::cout<<"sigue asi vamos guerrero"<<std::endl;
             break;
         
         default:
@@ -202,17 +201,17 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
     tcad palabraArriesgada;
     bool continuar = true;
     do{
-        cin >> opcion;
+        std::cin >> opcion;
         switch (opcion) {
             case 1:
                 probarLetraPalabra(palabra.palabra, palabraGuiones);
-                if(strcmp(palabra.palabra,palabraArriesgada) == 0)
+                if(strcmp(palabra.palabra,palabraGuiones) == 0)
                     {
                         turno->cantidad_vidas+=3;
-                        cout << "========================" << endl; 
-                        cout << "<3 FELICIDADES!!! <3 " << endl; 
-                        cout << "Has acertado la palabra." << endl; 
-                        cout << "========================" << endl;
+                        std::cout << "========================" << std::endl; 
+                        std::cout << "<3 FELICIDADES!!! <3 " << std::endl; 
+                        std::cout << "Has acertado la palabra." << std::endl; 
+                        std::cout << "========================" << std::endl;
                         palabraResuelta = true; 
                         push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
                     }
@@ -225,21 +224,21 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
                 continuar=false;
                 break;
             case 3:     // Pistas sinonimos o definicion
-            {
-                cout<<"1 Definicion (-2 vidas) "<<endl;
-                cout<<"2 Sinonimo (-3 vidas) "<<endl;
-                cout<<"Elija opcion:  "<<endl;
-                cin>>opcion2;
+            {   continuar=true;
+                std::cout<<"1 Definicion (-2 vidas) "<<std::endl;
+                std::cout<<"2 Sinonimo (-3 vidas) "<<std::endl;
+                std::cout<<"Elija opcion:  "<<std::endl;
+                std::cin>>opcion2;
                 system("cls");
                 if(opcion2 == 1)
                 {  if((turno->cantidad_vidas-2) > 0 )
                     {   
                         turno->cantidad_vidas -= 2;
-                        cout<<palabra.definicion<<endl;
+                        std::cout<<palabra.definicion<<std::endl;
                         continuar=false;
                     }
                     else
-                        cout<<"Vidas insuficientes"<<endl;
+                        std::cout<<"Vidas insuficientes"<<std::endl;
                 }
                 else
                 {   if(strlen(palabra.sinonimos)>0)
@@ -247,12 +246,13 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
                         if((turno->cantidad_vidas-3) > 0 )
                         {   continuar=false;
                             turno->cantidad_vidas -= 3;
-                            cout<<palabra.sinonimos<<endl;
+                            std::cout<<palabra.sinonimos<<std::endl;
                         }
                         else
-                            cout<<"Vidas insuficientes"<<endl;
+                            std::cout<<"Vidas insuficientes"<<std::endl;
+                            
                     }else
-                        cout<<"No hay sinonimos registrados"<<endl;
+                        std::cout<<"No hay sinonimos registrados"<<std::endl;
                         
                 }
                 system("pause");
@@ -260,31 +260,32 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
             break;
 
             case 4: //Arriesgar palabra
+                    continuar=false;
                     turno->cantidad_vidas -= 1;
-                    cout<< "Ingrese palabra"<<endl;
-                    cin>>palabraArriesgada;
+                    std::cout<< "Ingrese palabra"<<std::endl;
+                    std::cin>>palabraArriesgada;
                     if(strcmp(palabra.palabra,palabraArriesgada) == 0)
                     {
                         turno->cantidad_vidas+=3;
-                        cout << "========================" << endl; 
-                        cout << "<3 FELICIDADES!!! <3 " << endl; 
-                        cout << "Has acertado la palabra." << endl; 
-                        cout << "========================" << endl;
+                        std::cout << "========================" << std::endl; 
+                        std::cout << "<3 FELICIDADES!!! <3 " << std::endl; 
+                        std::cout << "Has acertado la palabra." << std::endl; 
+                        std::cout << "========================" << std::endl;
                         palabraResuelta = true;   
                         push_pila_palabras(turno->palabras_acertadas,palabra.palabra);
                     }
                     else
                     {
-                        cout << "========================" << endl; 
-                        cout << " </3 FALLASTE! </3 " << endl; 
-                        cout << "La palabra no es correcta." << endl; 
-                        cout << "========================" << endl;
-                        continuar=false;
+                        std::cout << "========================" << std::endl; 
+                        std::cout << " </3 FALLASTE! </3 " << std::endl; 
+                        std::cout << "La palabra no es correcta." << std::endl; 
+                        std::cout << "========================" << std::endl;
                     }
+                    system("pause");
                 break;
 
             default:
-                cout<<"Opcion invalida"<<endl;
+                std::cout<<"Opcion invalida"<<std::endl;
                 break;
         }
     }
@@ -294,17 +295,17 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
 // 2
 void menu_juego_encurso(tcad&palabraGuiones, pturno&turno)
 {
-    cout << "=====================================" << endl;
-    cout << " Palabra : " <<palabraGuiones<<endl;
-    cout << "=====================================" << endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << " Palabra : " <<palabraGuiones<<std::endl;
+    std::cout << "=====================================" << std::endl;
 
-    cout << "Turno del jugador: " <<turno->nickname<<" Vidas restantes: "<< turno->cantidad_vidas<< endl;
-    cout << "1. Probar una letra (-1 vida)" << endl;
-    cout << "2. Solicitar primera letra (-1 vida)" << endl;
-    cout << "3. Solicitar una pista" << endl;
-    cout << "4. Arriesgar la palabra (-1 vida)" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
+    std::cout << "Turno del jugador: " <<turno->nickname<<" Vidas restantes: "<< turno->cantidad_vidas<< std::endl;
+    std::cout << "1. Probar una letra (-1 vida)" << std::endl;
+    std::cout << "2. Solicitar primera letra (-1 vida)" << std::endl;
+    std::cout << "3. Solicitar una pista" << std::endl;
+    std::cout << "4. Arriesgar la palabra (-1 vida)" << std::endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "Elija una opcion: ";
 
 }
 
@@ -312,14 +313,14 @@ void menu_juego_encurso(tcad&palabraGuiones, pturno&turno)
 
 //1
 void menu_jugar() {
-    cout << "=====================================" << endl;
-    cout << "                 JUGAR               " << endl;
-    cout << "=====================================" << endl;
-    cout << "1. Seleccionar jugadores" << endl;
-    cout << "2. Iniciar juego" << endl;
-    cout << "3. Volver al menu anterior" << endl;
-    cout << "=====================================" << endl;
-    cout << "Elija una opcion: ";
+    std::cout << "=====================================" << std::endl;
+    std::cout << "                 JUGAR               " << std::endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "1. Seleccionar jugadores" << std::endl;
+    std::cout << "2. Iniciar juego" << std::endl;
+    std::cout << "3. Volver al menu anterior" << std::endl;
+    std::cout << "=====================================" << std::endl;
+    std::cout << "Elija una opcion: ";
 }
 
 void menu_principal_gestion_jugar() { 
@@ -327,30 +328,30 @@ void menu_principal_gestion_jugar() {
     inicializar_turnos(turnos);
     pturno turno;
     int opcion;
-    bool palabraResuelta;
+    bool palabraResuelta,todasLasPalabrasJugadas=false;
     
     do {
         system("cls");
         menu_jugar();
-        cin >> opcion;
+        std::cin >> opcion;
         switch (opcion) {
             case 1: // Seleccionar jugadores
             {
                 listar_jugadores(archivo1, true);
-                cout << "|     Ingrese nickname de jugador a elegir     |" << endl;
-                cin >> nickname;
+                std::cout << "\n |     Ingrese nickname de jugador a elegir     |" << std::endl;
+                std::cin >> nickname;
 
                 obtener_nombre_apellido(archivo1, nickname, nombre, apellido);
-                cout << "Nombre: " << nombre << " , Apellido: " << apellido << endl;
+                std::cout << "Nombre: " << nombre << " , Apellido: " << apellido << std::endl;
                 crear_turno(turno, nickname);
 
                 if (buscar_jugador_repetido(turnos, nickname)) { // Validacion para que no se repitan los jugadores en la cola
-                    cout << "Jugador ya seleccionado" << endl;
+                    std::cout << "Jugador ya seleccionado" << std::endl;
                 } else {
                     cola_agregar_turno(turnos, turno);
-                    cout << "========================" << endl;
-                    cout << "| " << turnos.fin->nickname << " agregado con exito!" << std::endl;
-                    cout << "========================" << endl;
+                    std::cout << "========================" << std::endl;
+                    std::cout << "| " << turnos.fin->nickname << " agregado con exito!" << std::endl;
+                    std::cout << "========================" << std::endl;
                 }
                 system("pause");
                 break;
@@ -358,8 +359,10 @@ void menu_principal_gestion_jugar() {
             case 2:
             {
                 pruleta palabraEnJuego=NULL;
-                if (ruleta_creada) {
-                    if (turnos.cantidad >= 2) {
+                if (ruleta_creada) 
+                {
+                    if (turnos.cantidad >= 2)
+                    {
                         for (palabraEnJuego = ruleta_palabras.inicio; palabraEnJuego != NULL && turnos.cantidad >1; palabraEnJuego = palabraEnJuego->sig)
                         {
                             system("cls");
@@ -375,44 +378,55 @@ void menu_principal_gestion_jugar() {
                                 }else
                                 {   
                                     //Animacion
-                                    std::cout<<" Jugador "<< turno->nickname<<" fue alcanzado por la parca"<<endl;
+                                    std::cout<<" Jugador "<< turno->nickname<<" fue alcanzado por la parca"<<std::endl;
                                 }
-                                cout<< "Palabra resuelta "<< palabraResuelta<<endl;
-                                system("pause");
                                 system("cls");
-                            } while (turnos.cantidad >1 && palabraResuelta == false); // Mientras haya mas de 1 jugador vivo y haya palabras 
+                            } while (turnos.cantidad >1 && palabraResuelta == false);
                         }
-                        
-                        if (palabraEnJuego == NULL) {
-                            system("pause");
-                            system("cls");
-                            std::cout << "Calculando puntaje final..." << endl;
-                            // Calculo para cuando se resolvieron todas las palabras y solo hay un jugador , y calculo para cuando hay mas de un jugador
-                            system("pause");
-                            system("cls");
-                        // setear la ruleta de palabras en nulo 
 
-                        }
+                        std::cout << "Calculando puntaje final..." << std::endl;
+                        system("pause");
+                        system("cls");
+                        
+                        if(palabraEnJuego == NULL)
+                            todasLasPalabrasJugadas = true;
+                        
+                        pturno turnoGanador = jugador_con_mas_palabras_o_puntaje(turnos);
+                        
+                        int puntaje_total = calcular_puntaje_individual(turnoGanador->palabras_acertadas,todasLasPalabrasJugadas);
+                        
+                        modificar_ganador(archivo1, turnoGanador->nickname , puntaje_total);
+                        
+                         //setear la ruleta de palabras en nulo 
+                        
+                        std::cout << "==============================" << std::endl;
+                        std::cout << "     FELICIDADES, " << turnoGanador->nickname << "!" << std::endl;
+                        std::cout << "==============================" << std::endl;
+                        std::cout << "     Has ganado el juego!      " << std::endl;
+                        std::cout << "==============================" << std::endl;
+                        std::cout << "     Puntaje: " << puntaje_total << " puntos" << std::endl;
+                        std::cout << "==============================" << std::endl;
+                        system("pause");
 
                     } else {
-                        cout << "**********************Estimado seleccione al menos 2 jugadores*********************" << endl;
+                        std::cout << "**********************Estimado seleccione al menos 2 jugadores*********************" << std::endl;
                         system("pause");
                     }
 
                 } else {
-                    cout << "**********************Estimado debe generar la ruleta*********************" << endl;
+                    std::cout << "**********************Estimado debe generar la ruleta*********************" << std::endl;
                     system("pause");
                 }
                 break;
             }
             case 3:
             {
-                cout << "BYE GUERREROS" << endl;
+                std::cout << "BYE GUERREROS" << std::endl;
                 system("pause");
                 return;
             }
             default:{
-                cout << "Opción no válida. Intente de nuevo." << endl;
+                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
                 system("pause");
                 break;
             }
@@ -427,7 +441,7 @@ void menu() {
     do {
         system("cls");
         opciones();
-        cin >> opcion;
+        std::cin >> opcion;
         switch (opcion) {
             case 1:
                 menu_principal_gestion_jugador();
@@ -459,12 +473,12 @@ void menu() {
                 break;
             case 5:
                 muerte_jugador();
-                cout << "Bye valiente jugador." << endl;
+                std::cout << "Bye valiente jugador." << std::endl;
                 system("pause");
                 break;
         
             default:
-                cout << "Opción no válida. Intente de nuevo." << endl;
+                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
                 system("pause");
                 break;
         }
