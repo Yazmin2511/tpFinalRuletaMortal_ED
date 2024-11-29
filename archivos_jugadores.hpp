@@ -142,3 +142,21 @@ int contar_jugadores_desde_archivo(tcad archivo) {
     fclose(file); 
     return total_jugadores;
 }
+
+// Función para listar jugadores
+void listar_jugadores_cuadro_honor(tcad archivo, bool ascendente) {
+    pjugador arbol = NULL;
+    cargar_jugadores_desde_archivo(archivo, arbol);
+
+    if (arbol == NULL) {
+        std::cout << "No hay jugadores registrados.\n";
+        return;
+    }
+
+    std::cout << "\n"; 
+    std::cout << "====================================" << std::endl; 
+    std::cout << " *** CUADRO DE HONOR *** " << std::endl; 
+    std::cout << "====================================" << std::endl; 
+    std::cout << "\n";
+    mostrar_cuadro_honor(arbol, ascendente); // Mostrar jugadores en orden ascendente o descendente
+}

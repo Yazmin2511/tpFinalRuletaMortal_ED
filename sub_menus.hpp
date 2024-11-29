@@ -406,6 +406,11 @@ void menu_principal_gestion_jugar() {
                         std::cout << "==============================" << std::endl;
                         std::cout << "     Puntaje: " << puntaje_total << " puntos" << std::endl;
                         std::cout << "==============================" << std::endl;
+
+                        //Setear estos valores a 0
+                        inicializar_ruleta_palabras(ruleta_palabras);
+                        inicializar_turnos(turnos);
+
                         system("pause");
 
                     } else {
@@ -467,7 +472,7 @@ void menu() {
                     std::cout << "Mostrar puntajes en orden ascendente o descendente? (asc/desc)" << std::endl;
                     std::cin >> resp;
                     bool asc = strcmp(resp, "asc") == 0;
-                    mostrar_cuadro_honor(jugadores, asc);
+                    listar_jugadores_cuadro_honor(archivo, asc);
                     system("pause");
                 }
                 break;

@@ -242,33 +242,60 @@ int cantidad_jugadores( pjugador arbol)
     return cant;
 }
 
+
+void insertar_por_puntaje(pjugador& arbol, pjugador nuevo)
+{
+    if (arbol == NULL)
+    {
+        arbol = nuevo; // Insertamos el nodo en la posición adecuada
+    }
+    else if (arbol->jugador.mejor_puntaje > nuevo->jugador.mejor_puntaje ) 
+    {
+        insertar(arbol->izq, nuevo); // Va a la izquierda si es menor
+    }
+    else 
+    {
+        insertar(arbol->der, nuevo); // Va a la derecha si es mayor
+    }
+}
+
 void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
 {
      if(arbol != NULL )
     {   
-        if(arbol->jugador.puntaje_total==0)
-            insertar(aux,arbol);
+        if(arbol->jugador.mejor_puntaje>0)
+            insertar_por_puntaje(aux,arbol);
         
         generar_cuadro_de_honor(arbol->izq,aux);
         generar_cuadro_de_honor(arbol->der,aux);
     }
 }
 
-void mostrar_cuadro_honor(pjugador arbol,bool asc)
-{pjugador aux=NULL;
-    generar_cuadro_de_honor(arbol,aux);
-    if(aux == NULL)
-        std::cout<<"No hay jugadores con puntajes mayores a 0"<<std::endl;
-    else
-    {
-        std::cout << "\n"; 
-        std::cout << "====================================" << std::endl; 
-        std::cout << " *** Cuadro de Honor *** " << std::endl; 
-        std::cout << "====================================" << std::endl; 
-        std::cout << "\n";
-         mostrar_orden(aux,asc);
+void mostrar_orden_puntaje(pjugador arbol , bool asc)
+{  
+    if(arbol != NULL )
+    {   
+        if(asc == true)
+        {
+            mostrar_orden_puntaje(arbol->izq,asc);
+            std::cout<<arbol->jugador.nickname<<" -----------"<<arbol->jugador.mejor_puntaje<<std::endl;
+            mostrar_orden(arbol->der,asc);
+        }
+        else
+        {
+            mostrar_orden_puntaje(arbol->der,asc);
+            std::cout<<arbol->jugador.nickname<<" -----------"<<arbol->jugador.mejor_puntaje<<std::endl;
+            mostrar_orden(arbol->izq,asc);
+        }
     }
-       
+    
+}
+
+
+void mostrar_cuadro_honor(pjugador arbol,bool asc)
+{   pjugador aux=NULL;
+    generar_cuadro_de_honor(arbol,aux);
+         mostrar_orden_puntaje(aux,asc);
 }
 
 void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
