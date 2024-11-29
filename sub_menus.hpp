@@ -1,5 +1,4 @@
 #include <iostream>
-//#include "abb_jugadores.hpp"
 #include "archivos_jugadores.hpp"
 #include "archivo_palabras.hpp"
 #include "tda_palabra_ruleta.hpp"
@@ -28,7 +27,7 @@ void crear_comprobarCadenaNoVacia(tcad& cadena , tcad mensaje) {
             esValida = true;
     }
 }
-
+//Menus
 void opciones(){
     
     std::cout << "=====================================" << std::endl;
@@ -70,7 +69,7 @@ void menu_crear_ruletas_palabras(){
     std::cout << "=====================================" << std::endl;
     std::cout << "Elija una opcion: ";
 }
-
+//MENU GESTION JUGADORES
 void menu_principal_gestion_jugador()
 {
     
@@ -138,12 +137,12 @@ void menu_principal_gestion_jugador()
     } while (opcion != 6);
    
 }
-
+//MENU RULETA DE PALABRAS
 void menu_principal_ruleta_palabras()
 {
    
     tcad archivo_palabras = "palabras.dat";
-   // lista lis;//lista doble
+   
     int opcion ,contador=0;
     do{
         system("cls");
@@ -195,7 +194,7 @@ void menu_principal_ruleta_palabras()
     }while(opcion!=4);
 
 }
-//2
+//GESTION DE OPCIONES JUEGO
 void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGuiones,bool&palabraResuelta) {
     int opcion,opcion2;
     tcad palabraArriesgada;
@@ -292,7 +291,7 @@ void menu_gestion_opciones_juego(pturno&turno,palabra_rul palabra,tcad&palabraGu
     while(continuar == true);
 }
 
-// 2
+// JUEGO EN CURSO
 void menu_juego_encurso(tcad&palabraGuiones, pturno&turno)
 {
     std::cout << "=====================================" << std::endl;
@@ -311,7 +310,7 @@ void menu_juego_encurso(tcad&palabraGuiones, pturno&turno)
 
 
 
-//1
+//MENUS
 void menu_jugar() {
     std::cout << "=====================================" << std::endl;
     std::cout << "                 JUGAR               " << std::endl;
@@ -322,7 +321,7 @@ void menu_jugar() {
     std::cout << "=====================================" << std::endl;
     std::cout << "Elija una opcion: ";
 }
-
+//MENU GESTION DE JUGAR
 void menu_principal_gestion_jugar() { 
     tcad archivo1 = "jugadores.dat", nickname, nombre, apellido,palabraGuiones;
     inicializar_turnos(turnos);
@@ -439,7 +438,7 @@ void menu_principal_gestion_jugar() {
         }
     } while (opcion != 3);
 }
-
+//MENU PRINCIPAL
 void menu() {
     tcad archivo = "jugadores.dat"; 
     int opcion;    
