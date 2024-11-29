@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include "t_cad.hpp"
-#include <cctype> // para la función tolower
+#include <cctype> 
 typedef struct tpalabra *ppalabra;
 
 typedef struct palabra {

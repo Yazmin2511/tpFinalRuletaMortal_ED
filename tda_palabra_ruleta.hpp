@@ -33,7 +33,7 @@ struct listaRuleta {
     pruleta fin;
 };
 
-
+//convierte mi palabras en guiones 
 void convertirPalabraAGuiones(tcad palabra, tcad&resultado)
 { 
     int longitud = strlen(palabra); 
@@ -43,13 +43,13 @@ void convertirPalabraAGuiones(tcad palabra, tcad&resultado)
     resultado[longitud] = '\0';
 }
 
-
+//para cambiar la primera letra de --- para que se muestre pista
 void cambiarPrimeraLetra(tcad palabra,tcad&palabraGuiones)
 { 
     palabraGuiones[0] = palabra[0];
 }
 
-
+// porbamos la letra a jugar
 void probarLetraPalabra(tcad palabra, tcad& palabraGuiones) {
     char letra;
     bool letraEncontrada = false;
@@ -69,13 +69,13 @@ void probarLetraPalabra(tcad palabra, tcad& palabraGuiones) {
     }
 }
 
-
+// inicializar nuestra ruleta
 void inicializar_ruleta_palabras(listaRuleta &lis)
 {
     lis.inicio = NULL;
     lis.fin = NULL;
 }
-
+// creacion de la ruleta
 void crear_ruleta_palabra(pruleta &nuevo, tcad palabra, tcad definicion,tcad sinonimos)
 {
     nuevo = new truleta;
@@ -92,7 +92,7 @@ void crear_ruleta_palabra(pruleta &nuevo, tcad palabra, tcad definicion,tcad sin
         std::cout << "MEMORIA INSUFICIENTE" << std::endl;
     }
 }
-
+//agregar final
 void agregar_final_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
 {
     if (lis.inicio == NULL) // vacia
@@ -107,7 +107,7 @@ void agregar_final_ruleta_palabra(listaRuleta &lis, pruleta nuevo)
         lis.fin = nuevo;
     }
 }
-
+//estraer final
 pruleta extraer_final_ruleta_palabra(listaRuleta &lista){
     pruleta extraer;
     if(lista.fin==NULL){
@@ -126,7 +126,7 @@ pruleta extraer_final_ruleta_palabra(listaRuleta &lista){
     }
     return extraer;
 }
-
+//mostrar las palabras
 void mostrar_ruleta_palabra(listaRuleta lis)
 {
     pruleta i;

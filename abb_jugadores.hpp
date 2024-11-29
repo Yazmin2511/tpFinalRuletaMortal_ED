@@ -1,5 +1,5 @@
 #include <iostream>
-#include <cstring> // Biblioteca para strcpy
+#include <cstring> 
 #include "t_cad.hpp"
 typedef struct tjugador *pjugador;
 
@@ -7,9 +7,9 @@ typedef struct player{
     tcad apellido;
     tcad nombre;
     tcad nickname;
-    int mejor_puntaje;  // cambiar //nickname -> jugador
-    int puntaje_total; // +=puntaje
-    int cantidad_partidas_ganadas; // ++
+    int mejor_puntaje;  
+    int puntaje_total; 
+    int cantidad_partidas_ganadas; 
 };
 
 typedef struct tjugador{
@@ -17,13 +17,13 @@ typedef struct tjugador{
     pjugador izq;
     pjugador der;
 };
-
+// incializar arbol de jugadores 
 void inicializar_arbol(pjugador&p)
 {   
     p=NULL;
 }
 
-
+// buscar jugador
 bool busqueda(pjugador p, tcad nickname){
     bool encontrado;
     if(p == NULL){
@@ -41,7 +41,7 @@ bool busqueda(pjugador p, tcad nickname){
 
     return encontrado;
 }
-
+// creacion del nodo
 void crear_nodo(pjugador&p , pjugador arbol)
 {   bool nickname_repetido=true;
     p = new tjugador;
@@ -79,12 +79,12 @@ void crear_nodo(pjugador&p , pjugador arbol)
     }
 }
 
-//Eliminar si no lo usamos 
+// nodo de pruebas
 void crear_nodo_temp(pjugador &p, tcad nombre, tcad apellido, tcad nickname) 
 { p = new tjugador; 
     if (p == NULL) 
     std::cout<< "Memoria llena" << std::endl; 
-    else { // Copia los valores de los punteros char* a los arreglos de char 
+    else { 
         strcpy(p->jugador.nombre, nombre); 
         strcpy(p->jugador.apellido, apellido); 
         strcpy(p->jugador.nickname, nickname); 
@@ -96,38 +96,25 @@ void crear_nodo_temp(pjugador &p, tcad nombre, tcad apellido, tcad nickname)
     } 
 }
 
-// void insertar(pjugador&arbol , pjugador nuevo)
-// {
-//     if(arbol == NULL)
-//         arbol = nuevo;
-//     else
-//     {
-//         if(arbol->jugador.nickname[0] > nuevo->jugador.nickname[0])
-//         {
-//             insertar(arbol->izq,nuevo);
-//         }else{
-//             insertar(arbol->der,nuevo);
-//         }
-//     }
-// }
 
 
+//insertar jugador al arbol
 void insertar(pjugador& arbol, pjugador nuevo)
 {
     if (arbol == NULL)
     {
-        arbol = nuevo; // Insertamos el nodo en la posición adecuada
+        arbol = nuevo; 
     }
     else if (strcmp(nuevo->jugador.nickname, arbol->jugador.nickname) < 0) 
     {
-        insertar(arbol->izq, nuevo); // Va a la izquierda si es menor
+        insertar(arbol->izq, nuevo); 
     }
     else if (strcmp(nuevo->jugador.nickname, arbol->jugador.nickname) > 0) 
     {
-        insertar(arbol->der, nuevo); // Va a la derecha si es mayor
+        insertar(arbol->der, nuevo); 
     }
 }
-
+//muestra los jugadores en orden
 void mostrar_orden(pjugador arbol , bool asc)
 {  
     if(arbol != NULL )
@@ -147,7 +134,7 @@ void mostrar_orden(pjugador arbol , bool asc)
     }
     
 }
-
+// busca al jugador usando el nickname
 pjugador busqueda_datos(pjugador a,tcad buscado) 
 { pjugador encontrado=NULL;
     if (a!=NULL)
@@ -163,7 +150,7 @@ pjugador busqueda_datos(pjugador a,tcad buscado)
     }
     return encontrado;
 }
-
+// muestra los juadores
 void mostrar_jugador(pjugador a)
 {
     std::cout << "Jugador: " << a->jugador.nombre << " " << a->jugador.apellido 
@@ -172,7 +159,7 @@ void mostrar_jugador(pjugador a)
                     << " | Partidas Ganadas: " << a->jugador.cantidad_partidas_ganadas << std::endl;
 }
 
-
+// modifica apellido y nombre del jugador
 void modificar_jugador(pjugador arbol,tcad nickname)
 {
     pjugador buscado = busqueda_datos(arbol,nickname);
@@ -190,30 +177,30 @@ void modificar_jugador(pjugador arbol,tcad nickname)
     }
 }
 
-
+//elimina el jugador 
 pjugador eliminar_nodo(pjugador& arbol, tcad nickname, pjugador& padre) {
     if (!arbol) {
-        return NULL; // Nodo no encontrado
+        return NULL;
     }
 
     if (strcmp(nickname, arbol->jugador.nickname) < 0) {
         return eliminar_nodo(arbol->izq, nickname, arbol);
     } else if (strcmp(nickname, arbol->jugador.nickname) > 0) {
         return eliminar_nodo(arbol->der, nickname, arbol);
-    } else { // Nodo encontrado
+    } else { 
         pjugador eliminado = arbol;
 
         // Caso 1: Nodo sin hijos
         if (!arbol->izq && !arbol->der) {
             arbol = NULL;
         }
-        // Caso 2: Nodo con un hijo
+       
         else if (!arbol->izq) {
             arbol = arbol->der;
         } else if (!arbol->der) {
             arbol = arbol->izq;
         }
-        // Caso 3: Nodo con dos hijos
+       
         else {
             pjugador sucesor = arbol->der;
             pjugador padre_sucesor = arbol;
@@ -221,14 +208,14 @@ pjugador eliminar_nodo(pjugador& arbol, tcad nickname, pjugador& padre) {
                 padre_sucesor = sucesor;
                 sucesor = sucesor->izq;
             }
-            arbol->jugador = sucesor->jugador; // Copiar datos del sucesor
+            arbol->jugador = sucesor->jugador; 
             eliminado = eliminar_nodo(arbol->der, sucesor->jugador.nickname, padre_sucesor);
         }
 
         return eliminado;
     }
 }
-
+// metodo retorna cantidad del jugador
 int cantidad_jugadores( pjugador arbol)
 {
     int cant;
@@ -242,7 +229,7 @@ int cantidad_jugadores( pjugador arbol)
     return cant;
 }
 
-
+//inserta por puntaje
 void insertar_por_puntaje(pjugador& arbol, pjugador nuevo)
 {
     if (arbol == NULL && nuevo->jugador.mejor_puntaje>0)
@@ -258,7 +245,7 @@ void insertar_por_puntaje(pjugador& arbol, pjugador nuevo)
         insertar(arbol->der, nuevo); // Va a la derecha si es mayor
     }
 }
-
+// procedimiento usado para generar cuadro de honor
 void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
 {
      if(arbol != NULL )
@@ -269,7 +256,7 @@ void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
         generar_cuadro_de_honor(arbol->der,aux);
     }
 }
-
+// muestra por el orden del puntaje obtenido
 void mostrar_orden_puntaje(pjugador arbol , bool asc)
 {  
     if(arbol != NULL )
@@ -290,13 +277,14 @@ void mostrar_orden_puntaje(pjugador arbol , bool asc)
     
 }
 
-
+//mostrara el cuadro de honor
 void mostrar_cuadro_honor(pjugador arbol,bool asc)
 {   pjugador aux=NULL;
     generar_cuadro_de_honor(arbol,aux);
     mostrar_orden_puntaje(aux,asc);
 }
 
+//procedimiento donde obtenemos nombre y apellido del jugador
 void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
     FILE *file = fopen(archivo, "rb"); 
     if (file == NULL) { 
@@ -314,7 +302,7 @@ void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &ap
          fclose(file); 
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n"; 
 }
-
+//modica el ganador
 void modificar_ganador(tcad& archivo, tcad nickname, int puntaje_total) {
     FILE *file = fopen(archivo, "rb+");
     if (file == NULL) {

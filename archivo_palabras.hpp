@@ -2,7 +2,7 @@
 #include <cstring>
 #include <cstdio>
 #include "abb_palabras.hpp"
-
+//metodo usado para guardar en orden
 void guardar_inorden(ppalabra arbol, FILE *file) {
     if (arbol != NULL) {
         guardar_inorden(arbol->izq, file);
@@ -10,7 +10,7 @@ void guardar_inorden(ppalabra arbol, FILE *file) {
         guardar_inorden(arbol->der, file);
     }
 }
-
+// cargamos nuestas palabras desde archivo
 void cargar_palabras_desde_archivo(tcad archivo, ppalabra &arbol) {
     FILE *file = fopen(archivo, "rb");
     if (file == NULL) {
@@ -37,7 +37,7 @@ void cargar_palabras_desde_archivo(tcad archivo, ppalabra &arbol) {
 
     fclose(file);
 }
-
+//guarda las palabras al archivo
 void guardar_palabras_en_archivo(tcad archivo, ppalabra arbol) {
     FILE *file = fopen(archivo, "wb");
     if (file == NULL) {
@@ -48,7 +48,7 @@ void guardar_palabras_en_archivo(tcad archivo, ppalabra arbol) {
     guardar_inorden(arbol, file);
     fclose(file);
 }
-
+//registra la palabras
 void registrar_palabra(tcad archivo, ppalabra &arbol) {
     FILE *file_check = fopen(archivo, "rb");
     if (file_check != NULL) {

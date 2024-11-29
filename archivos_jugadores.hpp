@@ -118,7 +118,7 @@ void eliminar_jugador(tcad archivo, tcad nickname) {
     cargar_jugadores_desde_archivo(archivo, arbol);
 
     pjugador padre = NULL;
-    pjugador eliminado = eliminar_nodo(arbol, nickname, padre); // Implementa la función `eliminar_nodo` en tu ABB
+    pjugador eliminado = eliminar_nodo(arbol, nickname, padre); 
     if (eliminado == NULL) {
         std::cout << "Jugador con nickname \"" << nickname << "\" no encontrado.\n";
     } else {
@@ -126,7 +126,7 @@ void eliminar_jugador(tcad archivo, tcad nickname) {
         delete eliminado; // Liberar la memoria del nodo eliminado
     }
 
-    guardar_jugadores_en_archivo(archivo, arbol); // Guardar el ABB actualizado en el archivo
+    guardar_jugadores_en_archivo(archivo, arbol); 
 }
 //  función para contar la cantidad de jugadores en el archivo 
 int contar_jugadores_desde_archivo(tcad archivo) { 
