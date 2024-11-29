@@ -469,21 +469,18 @@ void menu() {
             case 4:
                 {   
                     tcad resp;
-                    std::cout << "Mostrar puntajes en orden ascendente o descendente? (asc/desc)" << std::endl;
-                    std::cin >> resp;
-                    bool asc = strcmp(resp, "asc") == 0;
-                    listar_jugadores_cuadro_honor(archivo, asc);
+                    
+                    listar_jugadores_cuadro_honor(archivo, true);
                     system("pause");
                 }
                 break;
             case 5:
-                muerte_jugador();
                 std::cout << "Bye valiente jugador." << std::endl;
                 system("pause");
                 break;
         
             default:
-                std::cout << "Opción no válida. Intente de nuevo." << std::endl;
+                std::cout << "Opcion no válida. Intente de nuevo." << std::endl;
                 system("pause");
                 break;
         }

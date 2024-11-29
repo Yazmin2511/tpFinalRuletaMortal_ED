@@ -245,15 +245,15 @@ int cantidad_jugadores( pjugador arbol)
 
 void insertar_por_puntaje(pjugador& arbol, pjugador nuevo)
 {
-    if (arbol == NULL)
+    if (arbol == NULL && nuevo->jugador.mejor_puntaje>0)
     {
         arbol = nuevo; // Insertamos el nodo en la posición adecuada
     }
-    else if (arbol->jugador.mejor_puntaje > nuevo->jugador.mejor_puntaje ) 
+    else if (arbol->jugador.mejor_puntaje > nuevo->jugador.mejor_puntaje && nuevo->jugador.mejor_puntaje>0 ) 
     {
         insertar(arbol->izq, nuevo); // Va a la izquierda si es menor
     }
-    else 
+    else if (arbol->jugador.mejor_puntaje < nuevo->jugador.mejor_puntaje && nuevo->jugador.mejor_puntaje>0 ) 
     {
         insertar(arbol->der, nuevo); // Va a la derecha si es mayor
     }
@@ -263,8 +263,7 @@ void generar_cuadro_de_honor(pjugador arbol,pjugador&aux)
 {
      if(arbol != NULL )
     {   
-        if(arbol->jugador.mejor_puntaje>0)
-            insertar_por_puntaje(aux,arbol);
+        insertar_por_puntaje(aux,arbol);
         
         generar_cuadro_de_honor(arbol->izq,aux);
         generar_cuadro_de_honor(arbol->der,aux);
@@ -278,7 +277,7 @@ void mostrar_orden_puntaje(pjugador arbol , bool asc)
         if(asc == true)
         {
             mostrar_orden_puntaje(arbol->izq,asc);
-            std::cout<<arbol->jugador.nickname<<" -----------"<<arbol->jugador.mejor_puntaje<<std::endl;
+            std::cout<<arbol->jugador.nickname<<" -----------"<<"Mejor puntaje "<<arbol->jugador.mejor_puntaje<<" puntos"<<std::endl;
             mostrar_orden(arbol->der,asc);
         }
         else
@@ -295,7 +294,7 @@ void mostrar_orden_puntaje(pjugador arbol , bool asc)
 void mostrar_cuadro_honor(pjugador arbol,bool asc)
 {   pjugador aux=NULL;
     generar_cuadro_de_honor(arbol,aux);
-         mostrar_orden_puntaje(aux,asc);
+    mostrar_orden_puntaje(aux,asc);
 }
 
 void obtener_nombre_apellido(tcad archivo, tcad nickname, tcad &nombre, tcad &apellido) { 
