@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include "t_cad.hpp"
-
+#include <cctype> 
 typedef struct tpalabra *ppalabra;
 
 typedef struct palabra {
@@ -53,7 +53,11 @@ ppalabra busqueda_palabra_datos(ppalabra p, tcad nueva_palabra)
         }
     }
 }
-
+void convertir_a_minusculas(tcad& palabra) { 
+    for (int i = 0; palabra[i]; i++) { 
+        palabra[i] = tolower(palabra[i]); 
+    } 
+}
 void crear_nodo_palabras(ppalabra &p, ppalabra arbol) 
 {
     bool palabra_repetida = true;
@@ -66,7 +70,8 @@ void crear_nodo_palabras(ppalabra &p, ppalabra arbol)
         do 
         {
             std::cout << "Ingrese palabra" << std::endl;
-            std::cin >> p->pal.palabra;
+            std::cin >>p->pal.palabra;
+            convertir_a_minusculas(p->pal.palabra);
 
             palabra_repetida = busqueda_palabra(arbol, p->pal.palabra);
             if (palabra_repetida)
@@ -74,13 +79,15 @@ void crear_nodo_palabras(ppalabra &p, ppalabra arbol)
         } while (palabra_repetida);
 
         std::cout << "Ingrese definicion" << std::endl;
-        std::cin >> p->pal.definicion;
+        std::cin.ignore(); // Limpiar el buffer de entrada
+        std::cin.getline(p->pal.definicion,50) ;
         std::cout << "Desea ingresar un sinonimo? (si/no)" << std::endl;
         std::cin >> resp;
         if (strcmp(resp, "si") == 0)
         {
                 std::cout << "Ingrese sinonimo" << std::endl;
-                std::cin >> p->pal.sinonimos;
+                std::cin.ignore(); // Limpiar el buffer de entrada
+                std::cin.getline(p->pal.sinonimos,50) ;
         }
         p->izq = NULL;
         p->der = NULL;
